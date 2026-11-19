@@ -9,7 +9,7 @@ export interface IcsEventInput {
   readonly endUtc: string;
   readonly summary: string;
   readonly description: string;
-  readonly location?: string;
+  readonly location?: string | undefined;
 }
 
 export interface IcsCalendarOptions {
@@ -17,14 +17,14 @@ export interface IcsCalendarOptions {
   readonly idGen: IdGen;
   readonly plan: DayPlan;
   readonly language: Language;
-  readonly cityName?: string;
+  readonly cityName?: string | undefined;
 }
 
 export interface TextPlanOptions {
   readonly plan: DayPlan;
   readonly language: Language;
-  readonly profile?: HouseholdProfile;
-  readonly cityName?: string;
+  readonly profile?: HouseholdProfile | undefined;
+  readonly cityName?: string | undefined;
 }
 
 export interface GeneratedExport {
