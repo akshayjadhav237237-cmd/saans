@@ -17,12 +17,16 @@ export default defineConfig({
     include: ['tests/**/*.test.{ts,tsx}'],
     coverage: {
       provider: 'v8',
-      include: ['src/**'],
+      include: ['src/**/*.{ts,tsx}'],
       exclude: [
         'src/main.tsx',
         'src/**/__tests__/**',
         '**/*.test.{ts,tsx}',
         'src/**/types.ts',
+        'src/**/*.types.ts',
+        'src/shared/props.ts',
+        'src/shared/index.ts',
+        'src/exports/index.ts',
         'src/**/*.d.ts',
         'src/ai/port.ts',
       ],

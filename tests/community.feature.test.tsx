@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, renderHook, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { buildAdvisory } from '../src/domain/advisory';
@@ -9,6 +9,7 @@ import {
   toCommunityViewModel,
   toSchoolStatusDisplay,
 } from '../src/features/community/community.viewmodel';
+import { useCommunity } from '../src/features/community/useCommunity';
 import { A11Y_NAMES } from '../src/shared/a11y-names';
 import { useAppStore } from '../src/state/store';
 
@@ -114,5 +115,58 @@ describe('Community ViewModel & UI Feature', () => {
     expect(screen.getByText('सामुदायिक एवं संस्थागत सलाह')).toBeDefined();
     expect(screen.getByText('अस्वस्थ वायु गुणवत्ता का दौर')).toBeDefined();
     expect(screen.getByText('स्कूल खेलकूद और बाहरी प्रार्थना सभा:')).toBeDefined();
+  });
+
+  it('useCommunity resolves fallback branches from store and options', () => {
+    const { result: withOpts } = renderHook(() => useCommunity({ city: 'Agra', aqi: 250 }));
+    expect(withOpts.current.city).toBe('Agra');
+    expect(withOpts.current.aqi).toBe(250);
+
+    const { result: withCity } = renderHook(() => useCommunity({ city: 'Noida' }));
+    expect(withCity.current.city).toBe('Noida');
+    expect(withCity.current.aqi).toBe(100);
+
+    const { result: withAqi } = renderHook(() => useCommunity({ aqi: 310 }));
+    expect(withAqi.current.city).toBe('Delhi');
+    expect(withAqi.current.aqi).toBe(310);
+
+    useAppStore.setState({
+      selectedCity: {
+        id: 10,
+        name: 'Jaipur',
+        latitude: 26.9,
+        longitude: 75.8,
+        country: 'India',
+      },
+      airData: {
+        currentAqi: 190,
+        currentPm25: 120,
+        hourly: [],
+      },
+    });
+
+    const { result: withStore } = renderHook(() => useCommunity());
+    expect(withStore.current.city).toBe('Jaipur');
+    expect(withStore.current.aqi).toBe(190);
+  });
+
+  it('toCommunityActions and toCommunityViewModel handle non-key string fallbacks', () => {
+    const actions = toCommunityActions(['custom.untranslated.key'], 'en');
+    expect(actions[0]?.text).toBe('custom.untranslated.key');
+
+    const vm = toCommunityViewModel(
+      {
+        city: 'Agra',
+        aqi: 100,
+        band: 'moderate',
+        headlineKey: 'Custom Headline',
+        adviceKey: 'Custom Advice',
+        schoolOutdoorPermitted: true,
+        communityActions: ['custom.action'],
+      },
+      'en',
+    );
+    expect(vm.headline).toBe('Custom Headline');
+    expect(vm.advice).toBe('Custom Advice');
   });
 });

@@ -51,6 +51,12 @@ describe('i18n Localization Engine', () => {
 
     const textHi = translate('hi', 'aqi.band.good');
     expect(textHi).toContain('अच्छा');
+
+    const fallbackLang = translate('fr' as any, 'aqi.band.good');
+    expect(fallbackLang).toBe('Good');
+
+    const fallbackKey = translate('en', 'missing.key' as any);
+    expect(fallbackKey).toBe('missing.key');
   });
 });
 

@@ -125,13 +125,23 @@ describe('Shared UI Design System Components', () => {
         <VisuallyHidden>Screen reader label</VisuallyHidden>
         <SkipLink />
         <Spinner label="Loading air data" />
+        <BandBadge band="good" label="Good" />
+        <BandBadge band="moderate" label="Moderate" />
+        <BandBadge band="unhealthy_sensitive" label="Sensitive" />
         <BandBadge band="unhealthy" label="Unhealthy" />
+        <BandBadge band="very_unhealthy" label="Very Unhealthy" />
+        <BandBadge band="hazardous" label="Hazardous" />
       </div>,
     );
 
     expect(screen.getByText('Screen reader label')).toBeDefined();
     expect(screen.getByRole('link', { name: 'Skip to main content' })).toBeDefined();
+    expect(screen.getByText('Good')).toBeDefined();
+    expect(screen.getByText('Moderate')).toBeDefined();
+    expect(screen.getByText('Sensitive')).toBeDefined();
     expect(screen.getByText('Unhealthy')).toBeDefined();
+    expect(screen.getByText('Very Unhealthy')).toBeDefined();
+    expect(screen.getByText('Hazardous')).toBeDefined();
   });
 
   it('Chart renders SVG line and toggles accessible data table alternative', async () => {
