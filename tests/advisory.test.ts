@@ -24,6 +24,16 @@ describe('Advisory & Formatting Engines', () => {
     });
     expect(sensitiveAdv.schoolOutdoorPermitted).toBe(false);
 
+    const unhAdv = buildAdvisory({ aqi: 180, city: 'Delhi', dominantCategory: 'unhealthy' });
+    expect(unhAdv.schoolOutdoorPermitted).toBe(false);
+
+    const veryUnhAdv = buildAdvisory({
+      aqi: 250,
+      city: 'Delhi',
+      dominantCategory: 'very_unhealthy',
+    });
+    expect(veryUnhAdv.schoolOutdoorPermitted).toBe(false);
+
     const hazAdv = buildAdvisory({ aqi: 450, city: 'Delhi', dominantCategory: 'hazardous' });
     expect(hazAdv.schoolOutdoorPermitted).toBe(false);
   });
