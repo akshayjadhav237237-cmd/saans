@@ -1,0 +1,153 @@
+@media print {
+  /* Black on white global reset */
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+  }
+
+  @page {
+    margin: 1.5cm;
+    size: portrait;
+  }
+
+  html,
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+    line-height: 1.4 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Hide navigation, tabs, and skip links */
+  nav,
+  [role='navigation'],
+  [role='tablist'],
+  .app-nav,
+  .no-print,
+  .print-hidden,
+  [data-no-print],
+  a[href='#main-content'] {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Hide interactive buttons, form controls, and header actions */
+  button,
+  input,
+  select,
+  textarea,
+  [role='button'],
+  .btn,
+  header button {
+    display: none !important;
+  }
+
+  /* Hide chart data table toggles, ads, and controls */
+  .chart-controls,
+  .chart-toggle,
+  .chart-actions,
+  .ads,
+  .ad-banner,
+  .chart-ad {
+    display: none !important;
+  }
+
+  /* Preserve data attribution in footer */
+  footer,
+  [role='contentinfo'],
+  .app-footer,
+  .attribution {
+    display: block !important;
+    color: #000000 !important;
+    font-size: 9pt !important;
+    border-top: 1px solid #000000 !important;
+    margin-top: 1.5rem !important;
+    padding-top: 0.5rem !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Print layout for plan and community advisory */
+  #community-advisory,
+  [id='community-advisory'],
+  .community-advisory,
+  #exposure-plan,
+  [id='exposure-plan'],
+  .exposure-plan,
+  main,
+  #main-content,
+  [role='tabpanel'] {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Sensible page breaks */
+  article,
+  section,
+  .card,
+  table,
+  tr,
+  li {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  caption,
+  thead {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+    color: #000000 !important;
+  }
+
+  /* Card and table borders */
+  .card,
+  table,
+  th,
+  td {
+    border-color: #333333 !important;
+  }
+
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+  }
+
+  th,
+  td {
+    border: 1px solid #666666 !important;
+    padding: 4px 8px !important;
+    text-align: left !important;
+  }
+
+  /* High contrast SVG charts */
+  svg {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  svg text {
+    fill: #000000 !important;
+  }
+
+  svg line,
+  svg polyline,
+  svg circle {
+    stroke: #000000 !important;
+  }
+}
