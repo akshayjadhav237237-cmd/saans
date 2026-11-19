@@ -29,6 +29,17 @@ export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   readonly children: ReactNode;
 }
 
+export type FormFieldRenderProp = (describedBy: string | undefined) => ReactNode;
+
+export interface FormFieldLayoutProps {
+  readonly id: string;
+  readonly label: string;
+  readonly hint?: string | undefined;
+  readonly error?: string | undefined;
+  readonly className?: string | undefined;
+  readonly children: ReactNode | FormFieldRenderProp;
+}
+
 export interface ToggleProps {
   readonly id: string;
   readonly label: string;

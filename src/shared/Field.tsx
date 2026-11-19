@@ -1,10 +1,9 @@
 import type { FieldProps } from './props';
+import { FormFieldLayout, getFieldControlClass } from './FormFieldLayout';
 
 export type { FieldProps };
 
-/**
- * Accessible form field wrapper wiring input labels, hints, and error states with ARIA attributes.
- */
+/** Accessible form field wrapper wiring input labels, hints, and error states with ARIA attributes. */
 export function Field({
   id,
   label,
@@ -14,36 +13,19 @@ export function Field({
   children,
   ...inputProps
 }: FieldProps): JSX.Element {
-  const hintId = hint ? `${id}-hint` : undefined;
-  const errorId = error ? `${id}-error` : undefined;
-  const describedBy = [hintId, errorId].filter(Boolean).join(' ') || undefined;
-
   return (
-    <div className={`flex flex-col gap-1 text-left ${className}`}>
-      <label htmlFor={id} className="text-sm font-medium text-text-main">
-        {label}
-      </label>
-      {hint && (
-        <span id={hintId} className="text-xs text-text-muted">
-          {hint}
-        </span>
-      )}
-      {children ?? (
-        <input
-          id={id}
-          aria-describedby={describedBy}
-          aria-invalid={Boolean(error)}
-          className={`min-h-[44px] px-3 py-2 border rounded-lg bg-bg-surface text-text-main focus:outline-none focus:ring-2 focus:ring-border-focus focus:border-border-focus ${
-            error ? 'border-amber-dark' : 'border-border'
-          }`}
-          {...inputProps}
-        />
-      )}
-      {error && (
-        <span id={errorId} role="alert" className="text-xs font-medium text-amber-dark">
-          {error}
-        </span>
-      )}
-    </div>
+    <FormFieldLayout id={id} label={label} hint={hint} error={error} className={className}>
+      {(describedBy) =>
+        children ?? (
+          <input
+            id={id}
+            aria-describedby={describedBy}
+            aria-invalid={Boolean(error)}
+            className={getFieldControlClass(error)}
+            {...inputProps}
+          />
+        )
+      }
+    </FormFieldLayout>
   );
 }
