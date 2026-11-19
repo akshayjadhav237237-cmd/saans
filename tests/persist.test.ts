@@ -34,6 +34,16 @@ describe('Versioned Persistence Engine (P5-A)', () => {
     localStorage.clear();
   });
 
+  function assertLocalStorageResetsToDefault(storedPayload: string): void {
+    localStorage.setItem(STORAGE_KEY, storedPayload);
+    const loadRes = loadPersistedState();
+    expect(loadRes.ok).toBe(true);
+    if (loadRes.ok) {
+      expect(loadRes.value).toEqual(getDefaultPersistedState());
+    }
+    expect(localStorage.getItem(STORAGE_KEY)).toBeNull();
+  }
+
   it('loads default state cleanly when storage is empty', () => {
     const res = loadPersistedState();
     expect(res.ok).toBe(true);
@@ -84,13 +94,7 @@ describe('Versioned Persistence Engine (P5-A)', () => {
   });
 
   it('resets corrupt JSON safely and clears the corrupted storage key', () => {
-    localStorage.setItem(STORAGE_KEY, '{ invalid json corrupt payload ...');
-    const loadRes = loadPersistedState();
-    expect(loadRes.ok).toBe(true);
-    if (loadRes.ok) {
-      expect(loadRes.value).toEqual(getDefaultPersistedState());
-    }
-    expect(localStorage.getItem(STORAGE_KEY)).toBeNull();
+    assertLocalStorageResetsToDefault('{ invalid json corrupt payload ...');
   });
 
   it('resets corrupt schema data safely and returns defaults', () => {
@@ -100,13 +104,7 @@ describe('Versioned Persistence Engine (P5-A)', () => {
       language: 'invalid_lang',
       selectedCity: null,
     };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(broken));
-    const loadRes = loadPersistedState();
-    expect(loadRes.ok).toBe(true);
-    if (loadRes.ok) {
-      expect(loadRes.value).toEqual(getDefaultPersistedState());
-    }
-    expect(localStorage.getItem(STORAGE_KEY)).toBeNull();
+    assertLocalStorageResetsToDefault(JSON.stringify(broken));
   });
 
   it('migrates legacy unversioned state (v0) to current v1 schema', () => {
@@ -125,13 +123,7 @@ describe('Versioned Persistence Engine (P5-A)', () => {
 
   it('resets safely when encountering unsupported future schema versions', () => {
     const future = { version: 99, profile: sampleProfile, language: 'en', selectedCity: null };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(future));
-    const loadRes = loadPersistedState();
-    expect(loadRes.ok).toBe(true);
-    if (loadRes.ok) {
-      expect(loadRes.value).toEqual(getDefaultPersistedState());
-    }
-    expect(localStorage.getItem(STORAGE_KEY)).toBeNull();
+    assertLocalStorageResetsToDefault(JSON.stringify(future));
   });
 
   it('clears persisted state cleanly when clearPersistedState is called', () => {

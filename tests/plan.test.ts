@@ -1,43 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { buildDayPlan, rankActions } from '../src/domain/plan';
-import type { Clock } from '../src/domain/ports';
-import type { HourlySeries, HouseholdProfile, Scenario } from '../src/domain/types';
+import {
+  defaultScenario as baselineScenario,
+  mockClock,
+  sampleHouseholdProfile as profile,
+  sampleHourlySeries as highSmogHourly,
+} from './helpers';
 
 describe('Plan Engine (rankActions & buildDayPlan)', () => {
-  const mockClock: Clock = {
-    now: () => 1763539200000,
-    iso: () => '2026-11-19T08:00:00.000Z',
-  };
-
-  const profile: HouseholdProfile = {
-    id: 'h1',
-    name: 'Kapoor Family',
-    city: 'Delhi',
-    members: [
-      { id: 'm1', role: 'adult', hasRespiratoryCondition: false },
-      { id: 'm2', role: 'child', hasRespiratoryCondition: true },
-    ],
-  };
-
-  const highSmogHourly: HourlySeries = Array.from({ length: 24 }, (_, hour) => ({
-    hour,
-    pm25: 250,
-    aqi: 300,
-  }));
-
-  const baselineScenario: Scenario = {
-    hours: Array.from({ length: 24 }, (_, hour) => ({
-      hour,
-      environment: hour >= 8 && hour <= 9 ? 'commute_two_wheeler' : 'indoor_home',
-      mask: 'none',
-      purifier: 'off',
-      windowsSealed: false,
-      cookingVentilated: false,
-      dampMopping: false,
-      biomassBurning: true,
-    })),
-  };
-
   it('ranks actions by exposure reduction efficiency per effort unit', () => {
     const ranked = rankActions({
       hourly: highSmogHourly,

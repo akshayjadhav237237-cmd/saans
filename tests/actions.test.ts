@@ -1,37 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import { applyAction, listActions } from '../src/domain/actions';
 import { ACTIONS_CATALOG } from '../src/domain/actions.catalog';
-import type { HouseholdProfile, Scenario } from '../src/domain/types';
+import type { HouseholdProfile } from '../src/domain/types';
+import { defaultScenario, sampleHouseholdProfile as profileWithChild } from './helpers';
 
 describe('Actions Catalog & Domain Actions', () => {
-  const profileWithChild: HouseholdProfile = {
-    id: 'h1',
-    name: 'Sharma Family',
-    city: 'Delhi',
-    members: [
-      { id: 'm1', role: 'adult', hasRespiratoryCondition: false },
-      { id: 'm2', role: 'child', hasRespiratoryCondition: true },
-    ],
-  };
-
   const adultOnlyProfile: HouseholdProfile = {
     id: 'h2',
     name: 'Single Professional',
     city: 'Gurugram',
     members: [{ id: 'm1', role: 'adult', hasRespiratoryCondition: false }],
-  };
-
-  const defaultScenario: Scenario = {
-    hours: Array.from({ length: 24 }, (_, hour) => ({
-      hour,
-      environment: hour >= 8 && hour <= 9 ? 'commute_two_wheeler' : 'indoor_home',
-      mask: 'none',
-      purifier: 'off',
-      windowsSealed: false,
-      cookingVentilated: false,
-      dampMopping: false,
-      biomassBurning: true,
-    })),
   };
 
   it('contains between 16 and 20 distinct actions with unique identifiers', () => {
