@@ -45,7 +45,8 @@
     "tinypool": "2.2.0",
     "esbuild": "0.28.2",
     "minimatch": "11.0.1",
-    "glob": "14.0.3"
+    "glob": "14.0.3",
+    "@vitest/mocker": "4.1.12"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.14.0",
@@ -56,11 +57,11 @@
     "@testing-library/react": "16.0.1",
     "@testing-library/user-event": "14.5.2",
     "@types/jsdom": "21.1.7",
-    "@types/node": "20.17.6",
+    "@types/node": "22.20.5",
     "@types/react": "18.3.12",
     "@types/react-dom": "18.3.1",
-    "@vitejs/plugin-react": "4.3.3",
-    "@vitest/coverage-v8": "2.1.9",
+    "@vitejs/plugin-react": "4.7.0",
+    "@vitest/coverage-v8": "3.2.7",
     "autoprefixer": "10.4.20",
     "eslint": "9.39.5",
     "eslint-plugin-jsx-a11y": "6.10.2",
@@ -73,7 +74,7 @@
     "tailwindcss": "3.4.14",
     "typescript": "5.6.3",
     "typescript-eslint": "8.72.1",
-    "vite": "5.4.21",
-    "vitest": "2.1.9"
+    "vite": "7.3.7",
+    "vitest": "3.2.7"
   }
 }
