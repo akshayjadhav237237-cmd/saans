@@ -1,0 +1,40 @@
+@import '@fontsource-variable/inter';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg-base: #f8fafc;
+  --color-bg-surface: #ffffff;
+  --color-bg-elevated: #f1f5f9;
+
+  --color-text-main: #0f172a;
+  --color-text-muted: #475569;
+  --color-text-inverse: #ffffff;
+
+  --color-teal: #0f766e;
+  --color-teal-dark: #115e59;
+  --color-teal-light: #ccfbf1;
+
+  --color-amber: #b45309;
+  --color-amber-dark: #92400e;
+  --color-amber-light: #fef3c7;
+
+  --color-border: #cbd5e1;
+  --color-border-focus: #0f766e;
+}
+
+body {
+  margin: 0;
+  font-family:
+    'Inter Variable',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  background-color: var(--color-bg-base);
+  color: var(--color-text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
