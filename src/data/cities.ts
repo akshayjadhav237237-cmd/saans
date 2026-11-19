@@ -1,0 +1,68 @@
+import type { GeoLocation } from './types';
+
+export const PRESET_CITIES: readonly GeoLocation[] = [
+  {
+    id: 1273294,
+    name: 'Delhi',
+    latitude: 28.6139,
+    longitude: 77.209,
+    country: 'India',
+    admin1: 'Delhi',
+  },
+  {
+    id: 1270583,
+    name: 'Gurugram',
+    latitude: 28.4595,
+    longitude: 77.0266,
+    country: 'India',
+    admin1: 'Haryana',
+  },
+  {
+    id: 7279746,
+    name: 'Noida',
+    latitude: 28.5355,
+    longitude: 77.391,
+    country: 'India',
+    admin1: 'Uttar Pradesh',
+  },
+  {
+    id: 1264733,
+    name: 'Lucknow',
+    latitude: 26.8467,
+    longitude: 80.9462,
+    country: 'India',
+    admin1: 'Uttar Pradesh',
+  },
+  {
+    id: 1275004,
+    name: 'Kolkata',
+    latitude: 22.5726,
+    longitude: 88.3639,
+    country: 'India',
+    admin1: 'West Bengal',
+  },
+  {
+    id: 1260086,
+    name: 'Patna',
+    latitude: 25.5941,
+    longitude: 85.1376,
+    country: 'India',
+    admin1: 'Bihar',
+  },
+  {
+    id: 1259229,
+    name: 'Pune',
+    latitude: 18.5204,
+    longitude: 73.8567,
+    country: 'India',
+    admin1: 'Maharashtra',
+  },
+  {
+    id: 1275339,
+    name: 'Mumbai',
+    latitude: 19.076,
+    longitude: 72.8777,
+    country: 'India',
+    admin1: 'Maharashtra',
+  },
+];

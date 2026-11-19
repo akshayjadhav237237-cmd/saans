@@ -2,10 +2,5 @@
   "$schema": "https://unpkg.com/knip@5/overview/config.schema.json",
   "entry": ["src/main.tsx!", "tests/**/*.{ts,tsx}!"],
   "project": ["src/**/*.{ts,tsx,css}!", "vite-plugin-csp.ts!"],
-  "ignoreDependencies": [
-    "@fontsource-variable/inter",
-    "zod",
-    "zustand",
-    "@testing-library/user-event"
-  ]
+  "ignoreDependencies": ["@fontsource-variable/inter", "zustand", "@testing-library/user-event"]
 }
