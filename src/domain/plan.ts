@@ -4,9 +4,7 @@ import { computeExposure } from './exposure';
 import { bestWindows } from './schedule';
 import type { DayPlan, PlanInput, RankedAction, Scenario } from './types';
 
-/**
- * Evaluates and ranks applicable mitigation actions by dosage reduction efficiency per effort unit.
- */
+/** Evaluates and ranks applicable mitigation actions by dosage reduction efficiency per effort unit. */
 export function rankActions(input: PlanInput): RankedAction[] {
   const actions = listActions(input.profile);
   const baseline = computeExposure({
@@ -66,9 +64,7 @@ export function rankActions(input: PlanInput): RankedAction[] {
   return ranked;
 }
 
-/**
- * Builds an optimized 24-hour daily air quality action plan with exposure projections.
- */
+/** Builds an optimized 24-hour daily air quality action plan with exposure projections. */
 export function buildDayPlan(input: PlanInput, clock: Clock): DayPlan {
   const baselineExposure = computeExposure({
     hourly: input.hourly,

@@ -3,9 +3,7 @@ import type { HouseholdMember, HouseholdProfile } from './types';
 
 export const MAX_HOUSEHOLD_MEMBERS = 6;
 
-/**
- * Validates household profile data integrity and constraints.
- */
+/** Validates household profile data integrity and constraints. */
 export function validateHouseholdProfile(
   profile: HouseholdProfile,
 ): Result<HouseholdProfile, string> {
@@ -29,9 +27,7 @@ export function validateHouseholdProfile(
   return ok(profile);
 }
 
-/**
- * Checks whether any member of the household belongs to an air pollution vulnerable group.
- */
+/** Checks whether any member of the household belongs to an air pollution vulnerable group. */
 export function hasVulnerableMembers(profile: HouseholdProfile): boolean {
   return profile.members.some(
     (member) =>
@@ -39,9 +35,7 @@ export function hasVulnerableMembers(profile: HouseholdProfile): boolean {
   );
 }
 
-/**
- * Calculates a sensitivity weight multiplier for a specific household member.
- */
+/** Calculates a sensitivity weight multiplier for a specific household member. */
 export function getMemberSensitivityWeight(member: HouseholdMember): number {
   let weight = 1.0;
   if (member.role === 'child' || member.role === 'elder') {

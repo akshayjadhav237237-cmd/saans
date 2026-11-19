@@ -5,6 +5,7 @@ import {
   PURIFIER_REDUCTION,
   INDOOR_MODIFIERS,
   CIGARETTE_EQUIVALENT_PM25_DIVISOR,
+  PULMONARY_SENSITIVITY_WEIGHT,
 } from '../config/exposure-constants';
 import type {
   ExposureInput,
@@ -14,9 +15,7 @@ import type {
   ScenarioHour,
 } from './types';
 
-/**
- * Calculates effective PM2.5 concentration in ug/m3 inhaled during a single hour.
- */
+/** Calculates effective PM2.5 concentration in ug/m3 inhaled during a single hour. */
 export function calculateEffectiveHourPm25(outdoorPm25: number, hour: ScenarioHour): number {
   let envFactor = ENVIRONMENT_FACTORS[hour.environment].value;
   let addedUg = 0;
@@ -38,12 +37,10 @@ export function calculateEffectiveHourPm25(outdoorPm25: number, hour: ScenarioHo
   return Math.max(0, baseAmbient * (1 - maskEfficiency));
 }
 
-/**
- * Determines a descriptive risk tier based on daily inhaled PM2.5 dose in micrograms.
- */
+/** Determines a descriptive risk tier based on daily inhaled PM2.5 dose in micrograms. */
 export function evaluateRiskBand(doseUg: number, member: HouseholdMember): string {
   const sensitivityMultiplier =
-    member.role !== 'adult' || member.hasRespiratoryCondition ? 1.3 : 1.0;
+    member.role !== 'adult' || member.hasRespiratoryCondition ? PULMONARY_SENSITIVITY_WEIGHT : 1.0;
   const weightedDose = doseUg * sensitivityMultiplier;
   if (weightedDose <= 300) return 'low';
   if (weightedDose <= 700) return 'moderate';
@@ -51,9 +48,7 @@ export function evaluateRiskBand(doseUg: number, member: HouseholdMember): strin
   return 'severe';
 }
 
-/**
- * Calculates deterministic inhaled PM2.5 dosage for a household scenario across 24 hours.
- */
+/** Calculates deterministic inhaled PM2.5 dosage for a household scenario across 24 hours. */
 export function computeExposure(input: ExposureInput): ExposureResult {
   const hoursMap = new Map(input.hourly.map((h) => [h.hour, h.pm25]));
   const memberResults: MemberExposure[] = [];

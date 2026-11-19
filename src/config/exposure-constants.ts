@@ -132,3 +132,8 @@ export const INDOOR_MODIFIERS = {
  * Source: https://berkeleyearth.org/air-pollution-and-cigarette-equivalence/
  */
 export const CIGARETTE_EQUIVALENT_PM25_DIVISOR = 22;
+
+/**
+ * Pulmonary sensitivity weight multiplier for vulnerable individuals.
+ */
+export const PULMONARY_SENSITIVITY_WEIGHT = 1.3;

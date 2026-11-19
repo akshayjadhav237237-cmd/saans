@@ -24,9 +24,7 @@ const ACTIVITY_CONSTRAINTS: Record<ActivityKind, ActivityConstraint> = {
   },
 };
 
-/**
- * Calculates average PM2.5 for a specific time window.
- */
+/** Calculates average PM2.5 for a specific time window. */
 function calculateWindowAverage(
   hourlyMap: Map<number, number>,
   startHour: number,
@@ -39,9 +37,7 @@ function calculateWindowAverage(
   return Math.round(sum / duration);
 }
 
-/**
- * Identifies the lowest-exposure time windows for specific outdoor or ventilation activities.
- */
+/** Identifies the lowest-exposure time windows for specific outdoor or ventilation activities. */
 export function bestWindows(hourly: HourlySeries, kind: ActivityKind, count: number): TimeWindow[] {
   if (hourly.length === 0 || count <= 0) {
     return [];

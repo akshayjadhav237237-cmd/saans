@@ -60,9 +60,7 @@ const BAND_ADVISORY_KEYS = {
   },
 } as const;
 
-/**
- * Generates an institutional community air quality advisory for RWAs, schools, and civic groups.
- */
+/** Generates an institutional community air quality advisory for RWAs, schools, and civic groups. */
 export function buildAdvisory(input: AdvisoryInput): CommunityAdvisory {
   const config = BAND_ADVISORY_KEYS[input.dominantCategory];
 
