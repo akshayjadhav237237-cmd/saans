@@ -92,7 +92,7 @@ export const enCore = {
   // Ask Panel
   'ask.title': 'Ask Saans Copilot',
   'ask.subtitle': 'Natural language advice on indoor air, masks, and winter smog routines',
-  'ask.provider.local': 'Mode: On-Device Local Guidance (100% private, zero data shared)',
+  'ask.provider.local': 'Mode: On-Device Local Guidance (on-device only, no cloud call)',
   'ask.provider.gemini': 'Mode: Cloud Gemini 2.5 Flash (Privacy sanitized)',
   'ask.key.label': 'Optional Gemini API Key (stored in browser memory only)',
   'ask.key.placeholder': 'Enter Google AI Studio API key...',
@@ -100,9 +100,10 @@ export const enCore = {
   'ask.disclosure.toggle': 'Review data shared with Google when key is set',
   'ask.disclosure.title': 'Data Minimization Allowlist:',
   'ask.disclosure.notice':
-    'City name, personal nicknames, notes, and coordinates are NEVER transmitted.',
+    'City name, personal nicknames, notes, and coordinates are not transmitted.',
   'ask.input.label': 'Your Question',
   'ask.input.placeholder': 'Ask about masks, room sealing, cooking smoke, or workout hours...',
+  'ask.input.privacy_hint': 'Your question text is sent to Google when Gemini is on.',
   'ask.input.counter': '{count}/280 characters',
   'ask.send': 'Ask Question',
   'ask.examples.label': 'Example questions:',

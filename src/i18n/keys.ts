@@ -99,6 +99,7 @@ export const MESSAGE_KEYS = {
     'ask.disclosure.notice',
     'ask.input.label',
     'ask.input.placeholder',
+    'ask.input.privacy_hint',
     'ask.input.counter',
     'ask.send',
     'ask.examples.label',

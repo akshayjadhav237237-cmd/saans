@@ -49,8 +49,8 @@ describe('ai payload and disclosure', () => {
   };
 
   it('validates disclosure metadata and sanitizes payload', () => {
-    expect(DISCLOSED_FIELDS).toHaveLength(5);
-    expect(DISCLOSURE_DESCRIPTIONS).toHaveLength(5);
+    expect(DISCLOSED_FIELDS).toHaveLength(6);
+    expect(DISCLOSURE_DESCRIPTIONS).toHaveLength(6);
     DISCLOSURE_DESCRIPTIONS.forEach((d) => expect(DISCLOSED_FIELDS).toContain(d.field));
     const profile: HouseholdProfile = {
       id: 'house_secret_123',

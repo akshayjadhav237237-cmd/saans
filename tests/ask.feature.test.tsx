@@ -46,9 +46,10 @@ describe('Ask AI Feature Viewmodel and Panel', () => {
     expect(examples.length).toBe(3);
 
     const disclosures = getDisclosureList('en');
-    expect(disclosures.length).toBe(5);
+    expect(disclosures.length).toBe(6);
     expect(disclosures.map((d) => d.field)).toContain('aqiBandKey');
     expect(disclosures.map((d) => d.field)).toContain('roundedPm25');
+    expect(disclosures.map((d) => d.field)).toContain('userQuestion');
 
     const payload = buildPayloadFromState({
       profile: {
@@ -84,10 +85,14 @@ describe('Ask AI Feature Viewmodel and Panel', () => {
     expect(screen.getByText(/Review data shared with Google/i)).toBeDefined();
     expect(
       screen.getByText(
-        /City name, personal nicknames, notes, and coordinates are NEVER transmitted/i,
+        /City name, personal nicknames, notes, and coordinates are not transmitted/i,
       ),
     ).toBeDefined();
+    expect(
+      screen.getByText('Your question text is sent to Google when Gemini is on.'),
+    ).toBeDefined();
     expect(screen.getByText(/roundedPm25/i)).toBeDefined();
+    expect(screen.getByText(/userQuestion/i)).toBeDefined();
   });
 
   it('populates input from example chips and displays character limit counter', async () => {

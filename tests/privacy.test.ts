@@ -97,7 +97,8 @@ describe('AI Privacy Contracts and Protections', () => {
     expect(payload.memberKinds).toEqual(['elder', 'child']);
     expect(payload.actions).toHaveLength(5);
     expect(payload.actions[0]).toEqual({ id: 'act1', deltaPercent: 30 });
-    expect(Object.keys(payload).sort()).toEqual([...DISCLOSED_FIELDS].sort());
+    const expectedContextFields = DISCLOSED_FIELDS.filter((f) => f !== 'userQuestion');
+    expect(Object.keys(payload).sort()).toEqual(expectedContextFields.sort());
   });
 
   it('disclosure table aligns with disclosed fields and i18n keys', () => {

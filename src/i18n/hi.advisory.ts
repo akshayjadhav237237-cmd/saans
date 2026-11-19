@@ -119,6 +119,7 @@ export const hiAdvisory: Partial<Record<TranslationKey, string>> = {
   'ai.disclosure.member_kinds': 'परिवार के सदस्यों की श्रेणी (बच्चा/वयस्क/बुजुर्ग)',
   'ai.disclosure.action_deltas': 'सुझाए गए कदमों के नाम और उनसे होने वाली अनुमानित कमी',
   'ai.disclosure.language': 'चुनी गई भाषा (अंग्रेजी या हिंदी)',
+  'ai.disclosure.user_question': 'आपके प्रश्न का पाठ (अधिकतम 280 अक्षर, सुरक्षा जांच के बाद)',
 
   // Validation & Error Keys
   'profile.error.name_required': 'परिवार का नाम दर्ज करना आवश्यक है।',

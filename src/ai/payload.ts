@@ -7,6 +7,7 @@ export const DISCLOSED_FIELDS = [
   'memberKinds',
   'actions',
   'language',
+  'userQuestion',
 ] as const;
 
 export type DisclosedField = (typeof DISCLOSED_FIELDS)[number];
@@ -20,6 +21,7 @@ export const DISCLOSURE_DESCRIPTIONS: readonly {
   { field: 'memberKinds', descriptionKey: 'ai.disclosure.member_kinds' },
   { field: 'actions', descriptionKey: 'ai.disclosure.action_deltas' },
   { field: 'language', descriptionKey: 'ai.disclosure.language' },
+  { field: 'userQuestion', descriptionKey: 'ai.disclosure.user_question' },
 ];
 
 export interface BuildPayloadInput {

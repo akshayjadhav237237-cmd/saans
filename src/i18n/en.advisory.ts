@@ -129,6 +129,8 @@ export const enAdvisory = {
   'ai.disclosure.action_deltas':
     'Selected mitigation action IDs and calculated reduction percentages',
   'ai.disclosure.language': 'Selected interface language (EN or HI)',
+  'ai.disclosure.user_question':
+    'Your question text (maximum 280 characters, after validation guard)',
 
   // Validation & Error Keys
   'profile.error.name_required': 'Household name is required.',

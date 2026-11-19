@@ -41,6 +41,10 @@ export function AskQuestionForm({
         error={errorMessage}
       />
 
+      <p className="text-xs text-text-muted" data-testid="ask-privacy-notice">
+        {translate(language, 'ask.input.privacy_hint')}
+      </p>
+
       <div className="flex items-center justify-between">
         <span
           className={`text-xs ${isOverLimit ? 'text-amber-dark font-bold' : 'text-text-muted'}`}
