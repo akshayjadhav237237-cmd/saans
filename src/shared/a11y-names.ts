@@ -12,7 +12,7 @@ export const A11Y_NAMES = {
     community: 'Community Advisory',
   },
   buttons: {
-    switchLanguage: 'Switch language',
+    switchLanguage: 'Toggle language between English and Hindi',
     searchCity: 'Search Indian city or town',
     applyManualPm25: 'Set Manual Value',
     toggleManualPm25: 'Enter PM2.5 manually (offline mode)',
