@@ -5,14 +5,14 @@ import { PRESET_CITIES } from '../src/data/cities';
 import type { AirQualityData, GeoLocation } from '../src/data/types';
 import * as airModule from '../src/data/airquality';
 import * as geoModule from '../src/data/geocode';
+import { LocationPanel } from '../src/features/location/LocationPanel';
 import {
   formatLocationName,
   formatPm25Display,
-  toLocationDisplayModel,
   parseManualPm25Input,
   resolveAqiBandKey,
-  LocationPanel,
-} from '../src/features/location';
+  toLocationDisplayModel,
+} from '../src/features/location/location.viewmodel';
 import { ok } from '../src/domain/result';
 
 const sampleLocation: GeoLocation = {

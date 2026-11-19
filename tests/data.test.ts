@@ -1,5 +1,4 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import * as dataIndex from '../src/data/index';
 import { createManualAirQuality, fetchAirQuality } from '../src/data/airquality';
 import { CACHE_TTL_MS, SessionCache } from '../src/data/cache';
 import { PRESET_CITIES } from '../src/data/cities';
@@ -184,12 +183,12 @@ describe('Data Adapters & HTTP Engine', () => {
     }
   });
 
-  it('exports all public adapters and constants from index', () => {
-    expect(dataIndex.fetchJson).toBeTypeOf('function');
-    expect(dataIndex.searchCities).toBeTypeOf('function');
-    expect(dataIndex.fetchAirQuality).toBeTypeOf('function');
-    expect(dataIndex.createManualAirQuality).toBeTypeOf('function');
-    expect(dataIndex.SessionCache).toBeDefined();
-    expect(dataIndex.PRESET_CITIES).toBeDefined();
+  it('exports all public adapters and constants directly from modules', () => {
+    expect(fetchJson).toBeTypeOf('function');
+    expect(searchCities).toBeTypeOf('function');
+    expect(fetchAirQuality).toBeTypeOf('function');
+    expect(createManualAirQuality).toBeTypeOf('function');
+    expect(SessionCache).toBeDefined();
+    expect(PRESET_CITIES).toBeDefined();
   });
 });

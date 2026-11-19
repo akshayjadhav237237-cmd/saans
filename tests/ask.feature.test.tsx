@@ -2,8 +2,9 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { GeminiProvider } from '../src/ai/gemini';
+import { AskPanel } from '../src/features/ask/AskPanel';
+import { executeAiQuestion } from '../src/features/ask/ask.helpers';
 import {
-  AskPanel,
   buildPayloadFromState,
   formatCharacterCount,
   getDisclosureList,
@@ -11,11 +12,10 @@ import {
   getProviderMode,
   getProviderModeKey,
   isCharacterLimitExceeded,
-  executeAiQuestion,
   EXAMPLE_QUESTION_KEYS,
   MAX_QUESTION_LENGTH,
   type ExampleQuestionKey,
-} from '../src/features/ask';
+} from '../src/features/ask/ask.viewmodel';
 import { useAppStore } from '../src/state/store';
 
 describe('Ask AI Feature Viewmodel and Panel', () => {

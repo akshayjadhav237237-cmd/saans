@@ -3,6 +3,8 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { useAppStore } from '../src/state/store';
 import { createCounterIdGen } from '../src/domain/ports';
+import { HouseholdPanel } from '../src/features/household/HouseholdPanel';
+import { CommutePurifierCard, MemberItem } from '../src/features/household/MemberItem';
 import {
   assessHouseholdSensitivity,
   assessMemberSensitivity,
@@ -12,17 +14,16 @@ import {
   getRoleLabelKey,
   mapValidationError,
   validateHouseholdInputs,
-  HouseholdPanel,
-  MemberItem,
-  CommutePurifierCard,
-  addMemberToList,
-  removeMemberFromList,
-  updateMemberRoleInList,
-  toggleRespiratoryInList,
-  performProfileSave,
   type CommuteOption,
   type RoleOption,
-} from '../src/features/household';
+} from '../src/features/household/household.viewmodel';
+import {
+  addMemberToList,
+  performProfileSave,
+  removeMemberFromList,
+  toggleRespiratoryInList,
+  updateMemberRoleInList,
+} from '../src/features/household/useHousehold';
 
 describe('Household Feature', () => {
   beforeEach(() => {

@@ -1,6 +1,6 @@
 import { test, expect, MOCK_GEMINI_ANSWER_RESPONSE } from './fixtures';
 import type { Page } from '@playwright/test';
-import { GEMINI_MODEL_ID } from '../src/config/models';
+import { GEMINI_MODEL_ID } from '../src/config/constants';
 import { A11Y_NAMES } from '../src/shared/a11y-names';
 
 const CANARY_CITY = 'SecretCanaryCity99';
@@ -8,9 +8,7 @@ const CANARY_NICKNAME = 'CanaryElderGrandpa88';
 const CANARY_NOTES = 'PrivateRespiratoryNotes77';
 const CANARY_API_KEY = 'AIzaSyCanarySecretTestKey999';
 
-/**
- * Enters canary city, household nickname, API key, and submits a canary question.
- */
+/** Enters canary city, household nickname, API key, and submits a canary question. */
 export async function populateCanaryDataAndSubmit(page: Page): Promise<void> {
   const cityInput = page.getByLabel(A11Y_NAMES.inputs.searchCity);
   await cityInput.fill(CANARY_CITY);
@@ -32,9 +30,7 @@ export async function populateCanaryDataAndSubmit(page: Page): Promise<void> {
   await expect(page.locator('#ask-panel')).toContainText(/mask/i);
 }
 
-/**
- * Asserts that the canary API key is not stored in localStorage or sessionStorage.
- */
+/** Asserts that the canary API key is not stored in localStorage or sessionStorage. */
 export async function assertNoKeyInWebStorage(page: Page, apiKey: string): Promise<void> {
   const localStorageValues = await page.evaluate(() => {
     return Object.keys(localStorage).map((k) => localStorage.getItem(k) ?? '');

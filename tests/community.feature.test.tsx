@@ -2,13 +2,13 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { buildAdvisory } from '../src/domain/advisory';
+import { CommunityPanel } from '../src/features/community/CommunityPanel';
 import {
-  CommunityPanel,
   toBandLabel,
   toCommunityActions,
   toCommunityViewModel,
   toSchoolStatusDisplay,
-} from '../src/features/community';
+} from '../src/features/community/community.viewmodel';
 import { A11Y_NAMES } from '../src/shared/a11y-names';
 import { useAppStore } from '../src/state/store';
 

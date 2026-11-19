@@ -5,15 +5,15 @@ import type { AirQualityData } from '../src/data/types';
 import { buildDayPlan } from '../src/domain/plan';
 import type { Clock } from '../src/domain/ports';
 import type { HouseholdProfile } from '../src/domain/types';
+import { PlanPanel } from '../src/features/plan/PlanPanel';
 import {
-  buildPlanViewModel,
-  createDefaultBaselineScenario,
   buildActionGroupViewModels,
   buildBestWindowViewModels,
   buildComparisonViewModel,
   buildMemberViewModels,
-  PlanPanel,
-} from '../src/features/plan';
+  buildPlanViewModel,
+} from '../src/features/plan/plan.viewmodel';
+import { createDefaultBaselineScenario } from '../src/features/plan/usePlan';
 import { useAppStore } from '../src/state/store';
 
 describe('Plan Feature - Viewmodel & PlanPanel UI', () => {

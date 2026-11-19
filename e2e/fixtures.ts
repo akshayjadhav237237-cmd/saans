@@ -1,5 +1,5 @@
 import { test as baseTest, expect, type Page, type Route } from '@playwright/test';
-import { GEMINI_MODEL_ID } from '../src/config/models';
+import { GEMINI_MODEL_ID } from '../src/config/constants';
 
 export const MOCK_HOURLY_PM25 = [
   120, 115, 110, 105, 100, 120, 150, 180, 195, 170, 150, 135, 125, 120, 115, 120, 135, 160, 190,
@@ -82,9 +82,7 @@ export const MOCK_GEMINI_ANSWER_RESPONSE = {
   ],
 };
 
-/**
- * Intercepts external APIs and provides deterministic JSON fixtures.
- */
+/** Intercepts external APIs and provides deterministic JSON fixtures. */
 export async function setupMockRoutes(page: Page): Promise<void> {
   await page.route('**/v1/air-quality*', async (route: Route) => {
     await route.fulfill({
