@@ -1,13 +1,12 @@
 {
   "$schema": "https://unpkg.com/knip@5/overview/config.schema.json",
   "entry": [
-    "src/main.tsx!",
+    "src/styles/print.css!",
     "tests/**/*.{ts,tsx}!",
     "e2e/**/*.{ts,tsx}!",
     "src/ai/index.ts!",
     "src/exports/index.ts!"
   ],
   "project": ["src/**/*.{ts,tsx,css}!", "vite-plugin-csp.ts!"],
-  "ignoreDependencies": ["@fontsource-variable/inter"],
   "ignoreExportsUsedInFile": true
 }
