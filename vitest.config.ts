@@ -23,6 +23,7 @@ export default defineConfig({
         '**/*.test.{ts,tsx}',
         'src/**/types.ts',
         'src/**/*.d.ts',
+        'src/ai/port.ts',
       ],
       thresholds: {
         lines: 90,
