@@ -1,4 +1,4 @@
-# ADR 0002: Client-Side Privacy Sanitization and Grounded Gemini Integration
+# ADR 0005: Client-Side Privacy Sanitization and Grounded Gemini Integration
 
 ## Status
 

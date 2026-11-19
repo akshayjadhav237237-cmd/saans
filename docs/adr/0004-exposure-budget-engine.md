@@ -1,4 +1,4 @@
-# ADR 0001: Deterministic Exposure Budget Calculation Engine
+# ADR 0004: Deterministic Exposure Budget Calculation Engine
 
 ## Status
 

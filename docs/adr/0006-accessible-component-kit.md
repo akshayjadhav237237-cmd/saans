@@ -1,4 +1,4 @@
-# ADR 0003: Accessible Design System and Dual-Signal Air Quality Components
+# ADR 0006: Accessible Design System and Dual-Signal Air Quality Components
 
 ## Status
 
