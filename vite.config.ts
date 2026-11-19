@@ -6,6 +6,18 @@ import { vitePluginCsp } from './vite-plugin-csp';
 export default defineConfig({
   base: './',
   plugins: [react(), vitePluginCsp()],
+  server: {
+    headers: {
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY',
+    },
+  },
+  preview: {
+    headers: {
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY',
+    },
+  },
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
