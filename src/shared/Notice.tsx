@@ -8,9 +8,7 @@ const NOTICE_STYLES = {
   success: 'bg-teal-light text-teal-dark border-teal',
 } as const;
 
-/**
- * Accessible polite status notice component announcing updates to assistive screen-reading technologies.
- */
+/** Accessible polite status notice component announcing updates to assistive screen-reading technologies. */
 export function Notice({
   variant = 'info',
   children,

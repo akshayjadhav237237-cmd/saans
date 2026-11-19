@@ -9,9 +9,7 @@ const VARIANT_CLASSES = {
   ghost: 'bg-transparent text-text-muted hover:text-text-main hover:bg-bg-elevated',
 } as const;
 
-/**
- * Accessible interactive button component meeting minimum 44px touch targets.
- */
+/** Accessible interactive button component meeting minimum 44px touch targets. */
 export function Button({
   variant = 'primary',
   className = '',

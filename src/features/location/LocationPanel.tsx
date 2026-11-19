@@ -7,9 +7,7 @@ import { CitySearchInput } from './CitySearchInput';
 import { LiveAqiCard } from './LiveAqiCard';
 import { ManualPm25Section } from './ManualPm25Section';
 
-/**
- * Root location and air quality monitoring panel providing search, presets, and live card metrics.
- */
+/** Root location and air quality monitoring panel providing search, presets, and live card metrics. */
 export function LocationPanel(): JSX.Element {
   const language = useAppStore((s) => s.language);
   const loc = useLocation();

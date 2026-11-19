@@ -11,9 +11,7 @@ export interface UseCitySearchResult {
   readonly clearSearch: () => void;
 }
 
-/**
- * Manages debounced city geocoding search state and async request lifecycle.
- */
+/** Manages debounced city geocoding search state and async request lifecycle. */
 export function useCitySearch(): UseCitySearchResult {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<readonly GeoLocation[]>([]);

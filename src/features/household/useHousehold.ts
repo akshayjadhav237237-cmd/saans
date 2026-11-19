@@ -40,9 +40,7 @@ export interface UseHouseholdReturn extends MemberActions {
   readonly reset: () => void;
 }
 
-/**
- * Adds a new member to an existing member list if capacity allows.
- */
+/** Adds a new member to an existing member list if capacity allows. */
 export function addMemberToList(
   members: readonly HouseholdMember[],
   id: string,
@@ -52,9 +50,7 @@ export function addMemberToList(
   return [...members, createDefaultMember(id, role)];
 }
 
-/**
- * Removes a member by identifier from the member list.
- */
+/** Removes a member by identifier from the member list. */
 export function removeMemberFromList(
   members: readonly HouseholdMember[],
   memberId: string,
@@ -62,9 +58,7 @@ export function removeMemberFromList(
   return members.filter((m) => m.id !== memberId);
 }
 
-/**
- * Updates demographic role for a targeted member in the list.
- */
+/** Updates demographic role for a targeted member in the list. */
 export function updateMemberRoleInList(
   members: readonly HouseholdMember[],
   memberId: string,
@@ -73,9 +67,7 @@ export function updateMemberRoleInList(
   return members.map((m) => (m.id === memberId ? { ...m, role } : m));
 }
 
-/**
- * Toggles respiratory sensitivity status for a targeted member in the list.
- */
+/** Toggles respiratory sensitivity status for a targeted member in the list. */
 export function toggleRespiratoryInList(
   members: readonly HouseholdMember[],
   memberId: string,
@@ -85,9 +77,7 @@ export function toggleRespiratoryInList(
   );
 }
 
-/**
- * Constructs a candidate household profile for validation and persistence.
- */
+/** Constructs a candidate household profile for validation and persistence. */
 export function buildCandidateProfile(
   id: string,
   name: string,
@@ -97,9 +87,7 @@ export function buildCandidateProfile(
   return { id, name: name.trim(), city, members };
 }
 
-/**
- * Validates and commits an updated household profile to the global store.
- */
+/** Validates and commits an updated household profile to the global store. */
 export function performProfileSave(
   profile: HouseholdProfile,
   language: Language,
@@ -111,9 +99,7 @@ export function performProfileSave(
   return ok(profile);
 }
 
-/**
- * Creates member manipulation callbacks bound to React state setters.
- */
+/** Creates member manipulation callbacks bound to React state setters. */
 export function createMemberActions(
   members: readonly HouseholdMember[],
   generator: IdGen,
@@ -131,9 +117,7 @@ export function createMemberActions(
   };
 }
 
-/**
- * React view-model hook managing household profile editing, members, commute mode, and purifier state.
- */
+/** React view-model hook managing household profile editing, members, commute mode, and purifier state. */
 export function useHousehold(options?: UseHouseholdOptions): UseHouseholdReturn {
   const storeProfile = useAppStore((state) => state.profile);
   const setStoreProfile = useAppStore((state) => state.setProfile);

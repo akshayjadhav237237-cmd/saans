@@ -7,9 +7,7 @@ export interface CommunityActionsCardProps {
   readonly actions: readonly CommunityActionDisplay[];
 }
 
-/**
- * Collective civic and community clean air actions list card.
- */
+/** Collective civic and community clean air actions list card. */
 export function CommunityActionsCard({
   title,
   actions,

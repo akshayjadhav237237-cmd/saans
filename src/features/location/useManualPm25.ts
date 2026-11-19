@@ -13,9 +13,7 @@ export interface UseManualPm25Result {
   readonly submitManualPm25: () => boolean;
 }
 
-/**
- * Manages user manual PM2.5 override state, validation, and store synchronization.
- */
+/** Manages user manual PM2.5 override state, validation, and store synchronization. */
 export function useManualPm25(
   setAirData: (data: AirQualityData | null) => void,
 ): UseManualPm25Result {

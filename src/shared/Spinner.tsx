@@ -3,9 +3,7 @@ import { VisuallyHidden } from './VisuallyHidden';
 
 export type { SpinnerProps };
 
-/**
- * Accessible loading indicator that gracefully respects system prefers-reduced-motion settings.
- */
+/** Accessible loading indicator that gracefully respects system prefers-reduced-motion settings. */
 export function Spinner({ label = 'Loading...', className = '' }: SpinnerProps): JSX.Element {
   return (
     <div role="status" className={`inline-flex items-center justify-center p-2 ${className}`}>

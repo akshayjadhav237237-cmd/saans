@@ -13,9 +13,7 @@ export interface ManualPm25SectionProps {
   readonly error: string | null;
 }
 
-/**
- * Collapsible section allowing manual PM2.5 data entry for offline and field scenarios.
- */
+/** Collapsible section allowing manual PM2.5 data entry for offline and field scenarios. */
 export function ManualPm25Section({
   isOpen,
   onToggle,

@@ -64,9 +64,7 @@ function computeDisplayModel(
   return city && airData ? toLocationDisplayModel(city, airData) : null;
 }
 
-/**
- * View-model hook orchestrating location selection, air quality queries, and manual overrides.
- */
+/** View-model hook orchestrating location selection, air quality queries, and manual overrides. */
 export function useLocation(): UseLocationResult {
   const store = useLocationStoreSlice();
   const search = useCitySearch();

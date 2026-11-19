@@ -94,9 +94,7 @@ function PlanExportBar({ plan, clock }: ExportBarProps): JSX.Element {
   );
 }
 
-/**
- * Primary accessible plan panel presenting the personalized exposure budget, mitigations, and optimal windows.
- */
+/** Primary accessible plan panel presenting the personalized exposure budget, mitigations, and optimal windows. */
 export function PlanPanel({ clock, onNavigateTab }: PlanPanelProps = {}): JSX.Element {
   const { viewModel, hasData, isLoading, isActionExpanded, toggleActionExpanded } = usePlan(clock);
   const language = useAppStore((s) => s.language);

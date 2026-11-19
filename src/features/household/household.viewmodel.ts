@@ -43,9 +43,7 @@ export interface HouseholdSensitivitySummary {
   readonly hasVulnerable: boolean;
 }
 
-/**
- * Resolves the translation dictionary key for a specific member demographic role.
- */
+/** Resolves the translation dictionary key for a specific member demographic role. */
 export function getRoleLabelKey(role: MemberRole): TranslationKey {
   switch (role) {
     case 'child':
@@ -58,9 +56,7 @@ export function getRoleLabelKey(role: MemberRole): TranslationKey {
   }
 }
 
-/**
- * Resolves the translation dictionary key for a specific commute mode.
- */
+/** Resolves the translation dictionary key for a specific commute mode. */
 export function getCommuteLabelKey(mode: CommuteMode): TranslationKey {
   switch (mode) {
     case 'commute_two_wheeler':
@@ -74,16 +70,12 @@ export function getCommuteLabelKey(mode: CommuteMode): TranslationKey {
   }
 }
 
-/**
- * Checks whether additional members can be added to the household.
- */
+/** Checks whether additional members can be added to the household. */
 export function canAddMember(currentCount: number): boolean {
   return currentCount < MAX_HOUSEHOLD_MEMBERS;
 }
 
-/**
- * Creates a new household member with default adult role and negative respiratory condition.
- */
+/** Creates a new household member with default adult role and negative respiratory condition. */
 export function createDefaultMember(id: string, role: MemberRole = 'adult'): HouseholdMember {
   return {
     id,
@@ -92,9 +84,7 @@ export function createDefaultMember(id: string, role: MemberRole = 'adult'): Hou
   };
 }
 
-/**
- * Evaluates the clinical vulnerability and inhalation sensitivity weight for a member.
- */
+/** Evaluates the clinical vulnerability and inhalation sensitivity weight for a member. */
 export function assessMemberSensitivity(member: HouseholdMember): MemberSensitivityInfo {
   const isVulnerable =
     member.role === 'child' || member.role === 'elder' || member.hasRespiratoryCondition;
@@ -104,9 +94,7 @@ export function assessMemberSensitivity(member: HouseholdMember): MemberSensitiv
   };
 }
 
-/**
- * Summarizes demographic vulnerability and respiratory risk counts for a household profile.
- */
+/** Summarizes demographic vulnerability and respiratory risk counts for a household profile. */
 export function assessHouseholdSensitivity(
   members: readonly HouseholdMember[],
 ): HouseholdSensitivitySummary {
@@ -120,16 +108,12 @@ export function assessHouseholdSensitivity(
   };
 }
 
-/**
- * Maps domain validation error keys into user-friendly localized error messages.
- */
+/** Maps domain validation error keys into user-friendly localized error messages. */
 export function mapValidationError(errorKey: string, lang: Language): string {
   return translate(lang, errorKey as TranslationKey);
 }
 
-/**
- * Validates household profile inputs before persisting to the application store.
- */
+/** Validates household profile inputs before persisting to the application store. */
 export function validateHouseholdInputs(
   name: string,
   city: string,

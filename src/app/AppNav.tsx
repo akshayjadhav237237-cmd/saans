@@ -8,9 +8,7 @@ export interface AppNavProps {
   readonly onSelectTab: (tabId: NavTabId) => void;
 }
 
-/**
- * Accessible navigation landmark rendering ARIA-compliant tab controls for application feature panels.
- */
+/** Accessible navigation landmark rendering ARIA-compliant tab controls for application feature panels. */
 export function AppNav({ activeTab, onSelectTab }: AppNavProps): React.JSX.Element {
   const language = useAppStore((state) => state.language);
 

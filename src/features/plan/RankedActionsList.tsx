@@ -76,9 +76,7 @@ function ActionCard({ action, isExpanded, onToggleWhy, lang }: ActionCardProps):
   );
 }
 
-/**
- * Displays prioritized air pollution mitigation actions grouped by category with expandable reasons.
- */
+/** Displays prioritized air pollution mitigation actions grouped by category with expandable reasons. */
 export function RankedActionsList({
   groups,
   isActionExpanded,

@@ -32,9 +32,7 @@ function MetricBlock({ label, value, unit }: MetricBlockProps): JSX.Element {
   );
 }
 
-/**
- * Visualizes current ambient air quality metrics, category band badge, and data attribution.
- */
+/** Visualizes current ambient air quality metrics, category band badge, and data attribution. */
 export function LiveAqiCard({ model, isLoading, error, onRetry }: LiveAqiCardProps): JSX.Element {
   const language = useAppStore((s) => s.language);
 

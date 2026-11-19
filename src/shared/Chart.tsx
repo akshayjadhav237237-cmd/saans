@@ -105,9 +105,7 @@ function ChartTable({
   );
 }
 
-/**
- * Accessible 24-hour diurnal air pollution line chart with an integrated data table alternative.
- */
+/** Accessible 24-hour diurnal air pollution line chart with an integrated data table alternative. */
 export function Chart({ hourly, title, description, className = '' }: ChartProps): JSX.Element {
   const [showTable, setShowTable] = useState(false);
 

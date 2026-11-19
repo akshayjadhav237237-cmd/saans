@@ -17,9 +17,7 @@ export interface HouseholdActionsBarProps {
   readonly onClearData: () => void;
 }
 
-/**
- * Accessible actions bar rendering clear-data and save triggers for the household profile.
- */
+/** Accessible actions bar rendering clear-data and save triggers for the household profile. */
 export function HouseholdActionsBar({
   language,
   clearNotice,
@@ -49,9 +47,7 @@ export function HouseholdActionsBar({
   );
 }
 
-/**
- * Accessible household profile configuration panel for managing family vulnerability and routine.
- */
+/** Accessible household profile configuration panel for managing family vulnerability and routine. */
 export function HouseholdPanel({ idGen }: HouseholdPanelProps = {}): JSX.Element {
   const [clearNotice, setClearNotice] = useState<string | null>(null);
   const language = useAppStore((state) => state.language);

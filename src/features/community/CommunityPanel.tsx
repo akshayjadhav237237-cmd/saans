@@ -12,9 +12,7 @@ export interface CommunityPanelProps {
   readonly className?: string;
 }
 
-/**
- * Accessible institutional air advisory panel displaying school thresholds and collective civic actions.
- */
+/** Accessible institutional air advisory panel displaying school thresholds and collective civic actions. */
 export function CommunityPanel({
   overrides,
   className = '',

@@ -2,9 +2,7 @@ import type { SectionProps } from './props';
 
 export type { SectionProps };
 
-/**
- * Accessible landmark section wrapper rendering structured level-2 headings and descriptions.
- */
+/** Accessible landmark section wrapper rendering structured level-2 headings and descriptions. */
 export function Section({
   id,
   title,

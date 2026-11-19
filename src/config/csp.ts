@@ -1,7 +1,4 @@
-/**
- * Content Security Policy configuration.
- * Single source of truth for build-time meta injection and tests.
- */
+/** Content Security Policy configuration and directives for build-time meta injection and tests. */
 export const CSP_DIRECTIVES: Record<string, readonly string[]> = {
   'default-src': ["'none'"],
   'script-src': ["'self'"],
@@ -19,9 +16,7 @@ export const CSP_DIRECTIVES: Record<string, readonly string[]> = {
   'object-src': ["'none'"],
 } as const;
 
-/**
- * Builds serialized CSP string for HTML meta element.
- */
+/** Builds serialized CSP string for HTML meta element. */
 export function buildCspString(): string {
   return Object.entries(CSP_DIRECTIVES)
     .map(([key, vals]) => `${key} ${vals.join(' ')}`)

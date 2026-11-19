@@ -10,9 +10,7 @@ export interface BestWindowsCardProps {
   readonly lang: Language;
 }
 
-/**
- * Renders optimal low-exposure daily time windows and the diurnal air pollution line chart.
- */
+/** Renders optimal low-exposure daily time windows and the diurnal air pollution line chart. */
 export function BestWindowsCard({ windows, hourly, lang }: BestWindowsCardProps): JSX.Element {
   return (
     <Card className="flex flex-col gap-6 text-left">

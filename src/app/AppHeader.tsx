@@ -4,9 +4,7 @@ import { translate } from '../i18n';
 import { A11Y_NAMES, Button } from '../shared';
 import { useAppStore } from '../state/store';
 
-/**
- * Accessible application header landmark displaying branding, subtitle, and bilingual switcher.
- */
+/** Accessible application header landmark displaying branding, subtitle, and bilingual switcher. */
 export function AppHeader(): React.JSX.Element {
   const language = useAppStore((state) => state.language);
   const setLanguage = useAppStore((state) => state.setLanguage);

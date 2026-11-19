@@ -2,9 +2,7 @@ import type { ToggleProps } from './props';
 
 export type { ToggleProps };
 
-/**
- * Accessible binary toggle switch meeting ARIA switch pattern and minimum touch target requirements.
- */
+/** Accessible binary toggle switch meeting ARIA switch pattern and minimum touch target requirements. */
 export function Toggle({
   id,
   label,

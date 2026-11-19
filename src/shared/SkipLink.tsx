@@ -3,9 +3,7 @@ import type { SkipLinkProps } from './props';
 
 export type { SkipLinkProps };
 
-/**
- * Accessible keyboard navigation skip link allowing users to bypass repetitive header navigation.
- */
+/** Accessible keyboard navigation skip link allowing users to bypass repetitive header navigation. */
 export function SkipLink({
   targetId = 'main-content',
   label = A11Y_NAMES.skipLink,

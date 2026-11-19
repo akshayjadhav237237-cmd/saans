@@ -12,9 +12,7 @@ export interface CitySearchInputProps {
   readonly placeholder: string;
 }
 
-/**
- * Accessible search input with debounced autocomplete results for Indian cities.
- */
+/** Accessible search input with debounced autocomplete results for Indian cities. */
 export function CitySearchInput({
   query,
   onChangeQuery,

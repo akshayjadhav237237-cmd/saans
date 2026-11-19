@@ -7,9 +7,7 @@ export interface CommunitySchoolCardProps {
   readonly statusHeading: string;
 }
 
-/**
- * School outdoor physical activity and assembly safety threshold card.
- */
+/** School outdoor physical activity and assembly safety threshold card. */
 export function CommunitySchoolCard({
   schoolStatus,
   statusHeading,

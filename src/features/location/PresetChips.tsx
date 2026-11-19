@@ -7,9 +7,7 @@ export interface PresetChipsProps {
   readonly label: string;
 }
 
-/**
- * Renders quick-select interactive chips for high-priority smog hotspot cities.
- */
+/** Renders quick-select interactive chips for high-priority smog hotspot cities. */
 export function PresetChips({
   presets,
   selectedCityId,

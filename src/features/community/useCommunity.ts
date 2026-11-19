@@ -18,9 +18,7 @@ export interface UseCommunityResult extends CommunityViewModel {
 const DEFAULT_CITY = 'Delhi';
 const DEFAULT_AQI = 100;
 
-/**
- * React hook computing reactive community advisory and viewmodel from store state.
- */
+/** React hook computing reactive community advisory and viewmodel from store state. */
 export function useCommunity(options?: UseCommunityOptions): UseCommunityResult {
   const language = useAppStore((state) => state.language);
   const selectedCity = useAppStore((state) => state.selectedCity);

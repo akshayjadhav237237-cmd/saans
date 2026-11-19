@@ -130,9 +130,7 @@ function MembersRiskTable({
   );
 }
 
-/**
- * Renders the daily inhaled PM2.5 dosage and cigarette equivalence comparison with member risk tiers.
- */
+/** Renders the daily inhaled PM2.5 dosage and cigarette equivalence comparison with member risk tiers. */
 export function ExposureBudgetCard({
   comparison,
   members,

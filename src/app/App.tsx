@@ -41,9 +41,7 @@ function renderActivePanel(
   }
 }
 
-/**
- * Primary accessible application shell assembling landmarks, navigation, and lazy-loaded features.
- */
+/** Primary accessible application shell assembling landmarks, navigation, and lazy-loaded features. */
 export function App(): React.JSX.Element {
   const [activeTab, setActiveTab] = useState<NavTabId>('location');
 

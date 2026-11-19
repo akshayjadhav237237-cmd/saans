@@ -1,9 +1,7 @@
 import type { ActionCategory, AqiBand } from '../../domain/types';
 import { translate, type Language } from '../../i18n';
 
-/**
- * Maps a risk severity band string to the corresponding AQI visual category band.
- */
+/** Maps a risk severity band string to the corresponding AQI visual category band. */
 export function mapRiskToAqiBand(riskBand: string): AqiBand {
   switch (riskBand) {
     case 'low':
@@ -19,9 +17,7 @@ export function mapRiskToAqiBand(riskBand: string): AqiBand {
   }
 }
 
-/**
- * Resolves the localized display label for an inhalation risk severity band.
- */
+/** Resolves the localized display label for an inhalation risk severity band. */
 export function formatRiskBandLabel(riskBand: string, lang: Language): string {
   switch (riskBand) {
     case 'low':
@@ -37,9 +33,7 @@ export function formatRiskBandLabel(riskBand: string, lang: Language): string {
   }
 }
 
-/**
- * Resolves the localized display header label for a mitigation action category.
- */
+/** Resolves the localized display header label for a mitigation action category. */
 export function formatCategoryLabel(category: ActionCategory, lang: Language): string {
   if (lang === 'hi') {
     switch (category) {

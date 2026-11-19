@@ -17,9 +17,7 @@ export interface LocationDisplayModel {
   readonly attribution: string;
 }
 
-/**
- * Resolves the translation dictionary key corresponding to a given AQI band.
- */
+/** Resolves the translation dictionary key corresponding to a given AQI band. */
 export function resolveAqiBandKey(band: AqiBand): TranslationKey {
   switch (band) {
     case 'good':
@@ -37,9 +35,7 @@ export function resolveAqiBandKey(band: AqiBand): TranslationKey {
   }
 }
 
-/**
- * Formats a geographic location into a human-readable display string.
- */
+/** Formats a geographic location into a human-readable display string. */
 export function formatLocationName(location: GeoLocation): string {
   if (location.admin1 && location.admin1 !== location.name) {
     return `${location.name}, ${location.admin1}`;
@@ -47,17 +43,13 @@ export function formatLocationName(location: GeoLocation): string {
   return `${location.name}, ${location.country}`;
 }
 
-/**
- * Formats a PM2.5 numerical concentration into integer microgram units.
- */
+/** Formats a PM2.5 numerical concentration into integer microgram units. */
 export function formatPm25Display(pm25: number): string {
   const safePm25 = Math.max(0, Math.round(pm25));
   return `${safePm25} µg/m³`;
 }
 
-/**
- * Transforms raw air quality data and location records into a display view model.
- */
+/** Transforms raw air quality data and location records into a display view model. */
 export function toLocationDisplayModel(
   location: GeoLocation,
   airData: AirQualityData,
@@ -80,9 +72,7 @@ export function toLocationDisplayModel(
   };
 }
 
-/**
- * Validates and parses user manual PM2.5 input within the acceptable range.
- */
+/** Validates and parses user manual PM2.5 input within the acceptable range. */
 export function parseManualPm25Input(rawInput: string): Result<number, string> {
   const trimmed = rawInput.trim();
   if (trimmed.length === 0) {

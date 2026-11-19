@@ -2,9 +2,7 @@ import type { VisuallyHiddenProps } from './props';
 
 export type { VisuallyHiddenProps };
 
-/**
- * Screen-reader only utility component keeping essential labels accessible without visual rendering.
- */
+/** Screen-reader only utility component keeping essential labels accessible without visual rendering. */
 export function VisuallyHidden({
   children,
   className = '',

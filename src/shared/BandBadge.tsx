@@ -46,9 +46,7 @@ function renderShape(shape: string): JSX.Element {
   }
 }
 
-/**
- * Accessible Air Quality category indicator combining high-contrast colors, text, and unique geometric shapes.
- */
+/** Accessible Air Quality category indicator combining high-contrast colors, text, and unique geometric shapes. */
 export function BandBadge({ band, label, className = '' }: BandBadgeProps): JSX.Element {
   const config = BAND_CONFIG[band];
 

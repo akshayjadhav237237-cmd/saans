@@ -2,9 +2,7 @@ import type { IconProps } from './props';
 
 export type { IconProps };
 
-/**
- * Standard inline SVG icon wrapper providing consistent dimensions and accessibility attributes.
- */
+/** Standard inline SVG icon wrapper providing consistent dimensions and accessibility attributes. */
 export function IconWrapper({
   className = '',
   size,
@@ -37,9 +35,7 @@ export function IconWrapper({
   );
 }
 
-/**
- * Air / Wind icon representing ventilation and outdoor atmosphere.
- */
+/** Air / Wind icon representing ventilation and outdoor atmosphere. */
 export function WindIcon(props: IconProps): JSX.Element {
   return (
     <IconWrapper {...props}>
@@ -50,9 +46,7 @@ export function WindIcon(props: IconProps): JSX.Element {
   );
 }
 
-/**
- * Shield checkmark icon representing verified filtration protection.
- */
+/** Shield checkmark icon representing verified filtration protection. */
 export function ShieldIcon(props: IconProps): JSX.Element {
   return (
     <IconWrapper {...props}>
@@ -62,9 +56,7 @@ export function ShieldIcon(props: IconProps): JSX.Element {
   );
 }
 
-/**
- * Circle alert icon representing warnings and sensitivity thresholds.
- */
+/** Circle alert icon representing warnings and sensitivity thresholds. */
 export function AlertIcon(props: IconProps): JSX.Element {
   return (
     <IconWrapper {...props}>

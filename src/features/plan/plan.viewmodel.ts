@@ -20,9 +20,7 @@ import type {
 
 export { formatCategoryLabel, formatRiskBandLabel, mapRiskToAqiBand } from './plan.format';
 
-/**
- * Formats baseline versus optimized exposure totals into display models.
- */
+/** Formats baseline versus optimized exposure totals into display models. */
 export function buildComparisonViewModel(
   baseline: ExposureResult,
   optimized: ExposureResult,
@@ -81,9 +79,7 @@ function buildSingleMember(
   };
 }
 
-/**
- * Maps individual household member exposures and risk tiers for baseline and plan.
- */
+/** Maps individual household member exposures and risk tiers for baseline and plan. */
 export function buildMemberViewModels(
   plan: DayPlan,
   profile: HouseholdProfile,
@@ -96,9 +92,7 @@ export function buildMemberViewModels(
   );
 }
 
-/**
- * Groups ranked actions by category with localized titles, impact, and effort badges.
- */
+/** Groups ranked actions by category with localized titles, impact, and effort badges. */
 export function buildActionGroupViewModels(
   rankedActions: readonly RankedAction[],
   lang: Language,
@@ -141,9 +135,7 @@ export function buildActionGroupViewModels(
     .filter((group) => group.actions.length > 0);
 }
 
-/**
- * Formats lowest-exposure activity windows with localized hour ranges and averages.
- */
+/** Formats lowest-exposure activity windows with localized hour ranges and averages. */
 export function buildBestWindowViewModels(
   windows: readonly TimeWindow[],
   lang: Language,
@@ -161,9 +153,7 @@ export function buildBestWindowViewModels(
   }));
 }
 
-/**
- * Pure mapping function translating a DayPlan and profile into the viewmodel structure.
- */
+/** Pure mapping function translating a DayPlan and profile into the viewmodel structure. */
 export function buildPlanViewModel(
   plan: DayPlan,
   profile: HouseholdProfile,

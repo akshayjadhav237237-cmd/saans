@@ -17,9 +17,7 @@ export interface UsePlanReturn {
   readonly isActionExpanded: (actionId: string) => boolean;
 }
 
-/**
- * Generates a default 24-hour diurnal routine baseline scenario for exposure calculation.
- */
+/** Generates a default 24-hour diurnal routine baseline scenario for exposure calculation. */
 export function createDefaultBaselineScenario(): Scenario {
   return {
     hours: Array.from({ length: 24 }, (_, hour) => {
@@ -59,9 +57,7 @@ function computeDayPlan(
 
 const DEFAULT_CLOCK: Clock = createSystemClock();
 
-/**
- * React hook computing the deterministic day plan, syncing to store, and managing expansion states.
- */
+/** React hook computing the deterministic day plan, syncing to store, and managing expansion states. */
 export function usePlan(clock: Clock = DEFAULT_CLOCK): UsePlanReturn {
   const airData = useAppStore((s) => s.airData);
   const profile = useAppStore((s) => s.profile);

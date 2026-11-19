@@ -12,9 +12,7 @@ export interface MemberItemProps {
   readonly onRemove: (id: string) => void;
 }
 
-/**
- * Accessible household member item row rendering demographic role selection and clinical sensitivity toggles.
- */
+/** Accessible household member item row rendering demographic role selection and clinical sensitivity toggles. */
 export function MemberItem({
   member,
   index,
@@ -71,9 +69,7 @@ export interface MembersSectionProps {
   readonly onRemove: (id: string) => void;
 }
 
-/**
- * Accessible family members list section rendering member cards and the addition trigger.
- */
+/** Accessible family members list section rendering member cards and the addition trigger. */
 export function MembersSection({
   members,
   canAdd,
@@ -118,9 +114,7 @@ export interface CommutePurifierCardProps {
   readonly onPurifierToggle: (checked: boolean) => void;
 }
 
-/**
- * Accessible configuration card for household primary commute mode and indoor air purifier presence.
- */
+/** Accessible configuration card for household primary commute mode and indoor air purifier presence. */
 export function CommutePurifierCard({
   commuteMode,
   hasAirPurifier,

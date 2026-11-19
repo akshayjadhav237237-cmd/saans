@@ -1,9 +1,7 @@
 import React from 'react';
 import { APP_CONFIG } from '../config/constants';
 
-/**
- * Accessible footer landmark rendering authoritative data attribution and project provenance.
- */
+/** Accessible footer landmark rendering authoritative data attribution and project provenance. */
 export function AppFooter(): React.JSX.Element {
   return (
     <footer className="border-t border-border bg-bg-surface px-4 py-6 text-center text-xs text-text-muted sm:px-8 mt-auto">

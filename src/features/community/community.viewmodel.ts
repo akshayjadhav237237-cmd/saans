@@ -43,17 +43,13 @@ function isTranslationKey(key: string): key is TranslationKey {
   return key in en;
 }
 
-/**
- * Resolves the localized display label for an AQI category band.
- */
+/** Resolves the localized display label for an AQI category band. */
 export function toBandLabel(band: AqiBand, lang: Language): string {
   const key = BAND_LABEL_KEYS[band] ?? 'aqi.band.hazardous';
   return translate(lang, key);
 }
 
-/**
- * Maps school outdoor permission flag to an accessible status display model.
- */
+/** Maps school outdoor permission flag to an accessible status display model. */
 export function toSchoolStatusDisplay(permitted: boolean, lang: Language): SchoolStatusDisplay {
   const statusKey: TranslationKey = permitted
     ? 'community.school.permitted'
@@ -68,9 +64,7 @@ export function toSchoolStatusDisplay(permitted: boolean, lang: Language): Schoo
   };
 }
 
-/**
- * Translates a list of community action keys into displayable action records.
- */
+/** Translates a list of community action keys into displayable action records. */
 export function toCommunityActions(
   actionKeys: readonly string[],
   lang: Language,
@@ -85,9 +79,7 @@ export function toCommunityActions(
   });
 }
 
-/**
- * Maps a domain CommunityAdvisory model into a localized UI presentation viewmodel.
- */
+/** Maps a domain CommunityAdvisory model into a localized UI presentation viewmodel. */
 export function toCommunityViewModel(
   advisory: CommunityAdvisory,
   lang: Language,
