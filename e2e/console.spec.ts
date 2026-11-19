@@ -35,6 +35,12 @@ test.describe('Console and CSP Hygiene', () => {
     page,
   }) => {
     const collector = attachConsoleCollector(page);
+    const client = await page.context().newCDPSession(page);
+    await client.send('Audits.enable');
+    const cdpIssues: string[] = [];
+    client.on('Audits.issueAdded', (issue) => {
+      cdpIssues.push(issue.issue.code);
+    });
 
     await page.goto('/');
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
@@ -72,5 +78,6 @@ test.describe('Console and CSP Hygiene', () => {
     // Assert strictly zero errors and zero CSP refusal messages
     expect(collector.cspViolations).toEqual([]);
     expect(collector.errors).toEqual([]);
+    expect(cdpIssues).toEqual([]);
   });
 });

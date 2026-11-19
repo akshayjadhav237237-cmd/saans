@@ -4,6 +4,8 @@ import type { HourlyReading, HourlySeries } from '../domain/types';
 import { fetchJson } from './http';
 import type { AirQualityData } from './types';
 
+z.config({ jitless: true });
+
 const AirQualityResponseSchema = z.object({
   current: z
     .object({

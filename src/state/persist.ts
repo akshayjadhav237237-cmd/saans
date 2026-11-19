@@ -5,6 +5,8 @@ import type { HouseholdProfile } from '../domain/types';
 import type { Language } from '../i18n';
 import { CURRENT_SCHEMA_VERSION, DEFAULT_MIGRATION_PROFILE, migrateState } from './migrate';
 
+z.config({ jitless: true });
+
 export const STORAGE_KEY = 'saans.v1';
 
 const MemberRoleSchema = z.enum(['child', 'adult', 'elder']);

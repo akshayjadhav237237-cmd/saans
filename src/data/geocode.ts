@@ -3,6 +3,8 @@ import { err, ok, type Result } from '../domain/result';
 import { fetchJson } from './http';
 import type { GeoLocation } from './types';
 
+z.config({ jitless: true });
+
 const GeocodingItemSchema = z.object({
   id: z.number(),
   name: z.string(),
