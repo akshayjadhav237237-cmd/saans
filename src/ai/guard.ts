@@ -27,7 +27,7 @@ function sanitizeControlChars(text: string): string {
   for (let i = 0; i < text.length; i += 1) {
     const code = text.charCodeAt(i);
     if ((code >= 32 && code !== 127) || code === 10 || code === 13 || code === 9) {
-      result += text[i];
+      result += text.charAt(i);
     } else {
       result += ' ';
     }

@@ -16,8 +16,11 @@ export function buildAllowedNumbers(payload: SanitizedPayload): readonly number[
  * Verifies that all numeric tokens within AI-generated text match pre-computed engine numbers.
  */
 export function numbersAreGrounded(text: string, allowedNumbers: readonly number[]): boolean {
-  // Strip standard pollutant designation labels (PM2.5, PM10) so their acronyms are not treated as claimed numbers
-  const cleanedText = text.replace(/PM2\.5/gi, 'PM').replace(/PM10/gi, 'PM');
+  // Strip standard pollutant designation labels (PM2.5, PM10) and mask ratings so their acronyms are not treated as numbers
+  const cleanedText = text
+    .replace(/PM\s*2\.5/gi, 'PM')
+    .replace(/PM\s*10/gi, 'PM')
+    .replace(/N-?95/gi, 'N95');
   const tokens = cleanedText.match(/\b\d+(\.\d+)?\b/g);
   if (!tokens || tokens.length === 0) {
     // Zero numbers in text is strictly safe under "AI returns words only" rule

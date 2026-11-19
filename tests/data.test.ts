@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import * as dataIndex from '../src/data/index';
 import { createManualAirQuality, fetchAirQuality } from '../src/data/airquality';
 import { CACHE_TTL_MS, SessionCache } from '../src/data/cache';
 import { PRESET_CITIES } from '../src/data/cities';
@@ -181,5 +182,14 @@ describe('Data Adapters & HTTP Engine', () => {
       expect(city.longitude).toBeGreaterThan(68);
       expect(city.longitude).toBeLessThan(98);
     }
+  });
+
+  it('exports all public adapters and constants from index', () => {
+    expect(dataIndex.fetchJson).toBeTypeOf('function');
+    expect(dataIndex.searchCities).toBeTypeOf('function');
+    expect(dataIndex.fetchAirQuality).toBeTypeOf('function');
+    expect(dataIndex.createManualAirQuality).toBeTypeOf('function');
+    expect(dataIndex.SessionCache).toBeDefined();
+    expect(dataIndex.PRESET_CITIES).toBeDefined();
   });
 });
