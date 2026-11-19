@@ -29,6 +29,8 @@
 6. `src/features`: Isolated feature UI panels. Features never import other features.
 7. `src/app`: Application shell and layout.
 
+Architectural decision records are tracked in `docs/adr/` (0001-stack, 0002-layering, 0003-ai-never-makes-numbers, 0004-exposure-budget-engine, 0005-data-privacy-and-gemini, 0006-accessible-component-kit).
+
 ## Core Directives
 
 - **AI Never Makes Numbers**: All AQI, PM2.5 concentrations, inhaled doses, and cost/impact deltas are computed exclusively by deterministic domain engines. AI only provides wording and contextual guidance.
