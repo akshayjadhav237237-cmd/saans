@@ -15,6 +15,7 @@ export const CSP_DIRECTIVES: Record<string, readonly string[]> = {
     'https://generativelanguage.googleapis.com',
   ],
   'base-uri': ["'none'"],
+  'form-action': ["'none'"],
   'object-src': ["'none'"],
 } as const;
 
