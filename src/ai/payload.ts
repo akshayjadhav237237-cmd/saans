@@ -32,9 +32,7 @@ export interface BuildPayloadInput {
   readonly language: 'en' | 'hi';
 }
 
-/**
- * Builds a strictly privacy-sanitized allowlist payload stripping all PII and geographic identifiers.
- */
+/** Builds a strictly privacy-sanitized allowlist payload stripping all PII and geographic identifiers. */
 export function buildSanitizedPayload(input: BuildPayloadInput): SanitizedPayload {
   const memberKinds = input.profile.members.map((m) => m.role);
   const actions = input.dayPlan.rankedActions.slice(0, 5).map((r) => ({

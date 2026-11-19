@@ -19,9 +19,7 @@ const INJECTION_PATTERNS = [
   /repeat\s+(everything|the\s+prompt)/i,
 ];
 
-/**
- * Strips non-printable ASCII control characters without using control regexes.
- */
+/** Strips non-printable ASCII control characters without using control regexes. */
 function sanitizeControlChars(text: string): string {
   let result = '';
   for (let i = 0; i < text.length; i += 1) {
@@ -35,9 +33,7 @@ function sanitizeControlChars(text: string): string {
   return result;
 }
 
-/**
- * Validates user question against length bounds and adversarial prompt-injection patterns.
- */
+/** Validates user question against length bounds and adversarial prompt-injection patterns. */
 export function validateAndSanitizeQuestion(input: string): Result<string, string> {
   const sanitized = sanitizeControlChars(input).trim();
 

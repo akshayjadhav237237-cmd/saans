@@ -1,3 +1,12 @@
+import {
+  AI_RETRY_DELAY_MS,
+  AI_TEMPERATURE,
+  EXPLAIN_RESPONSE_SCHEMA,
+  EXPLAIN_SYSTEM_PROMPT,
+  QA_RESPONSE_SCHEMA,
+  QA_SYSTEM_PROMPT,
+  TIMEOUT_MS,
+} from '../config/ai-constants';
 import { GEMINI_API_BASE_URL, GEMINI_MODEL_ID } from '../config/models';
 import { err, ok, type Result } from '../domain/result';
 import { buildAllowedNumbers, numbersAreGrounded } from './grounding';
@@ -9,8 +18,6 @@ import type {
   ExplainPlanInput,
 } from './port';
 import { AiAnswerSchema, AiExplanationSchema } from './schema';
-
-const TIMEOUT_MS = 15000;
 
 interface GeminiResponse {
   readonly candidates?: readonly {
@@ -74,7 +81,7 @@ async function callGemini(params: GeminiCallParams): Promise<Result<string, stri
     systemInstruction: { parts: [{ text: params.systemPrompt }] },
     contents: [{ parts: [{ text: params.prompt }] }],
     generationConfig: {
-      temperature: 0.1,
+      temperature: AI_TEMPERATURE,
       responseMimeType: 'application/json',
       responseSchema: params.schema,
     },
@@ -84,15 +91,13 @@ async function callGemini(params: GeminiCallParams): Promise<Result<string, stri
   if (first.text) return ok(first.text);
   if (!first.retryable) return err(first.error ?? 'ai.error.unknown');
 
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  await new Promise((resolve) => setTimeout(resolve, AI_RETRY_DELAY_MS));
   const second = await executeSingleCall(url, body, params.apiKey);
   if (second.text) return ok(second.text);
   return err(second.error ?? 'ai.error.failed_after_retry');
 }
 
-/**
- * Cloud Gemini AI provider with strict privacy allowlist payload and numerical grounding checks.
- */
+/** Cloud Gemini AI provider with strict privacy allowlist payload and numerical grounding checks. */
 export const GeminiProvider: AiProvider = {
   id: 'gemini',
 
@@ -101,20 +106,14 @@ export const GeminiProvider: AiProvider = {
       return err('ai.error.missing_api_key');
     }
 
-    const schema = {
-      type: 'OBJECT',
-      properties: {
-        summary: { type: 'STRING' },
-        highlights: { type: 'ARRAY', items: { type: 'STRING' } },
-      },
-      required: ['summary', 'highlights'],
-    };
-
-    const systemPrompt =
-      'You are Saans Air Quality Copilot. Provide concise, protective guidance. Output words only; do not invent numbers.';
     const prompt = `Explain this air quality scenario and actions: ${JSON.stringify(input.payload)}`;
 
-    const res = await callGemini({ prompt, systemPrompt, schema, apiKey: input.apiKey });
+    const res = await callGemini({
+      prompt,
+      systemPrompt: EXPLAIN_SYSTEM_PROMPT,
+      schema: EXPLAIN_RESPONSE_SCHEMA,
+      apiKey: input.apiKey,
+    });
     if (!res.ok) return err(res.error);
 
     try {
@@ -141,20 +140,14 @@ export const GeminiProvider: AiProvider = {
       return err('ai.error.missing_api_key');
     }
 
-    const schema = {
-      type: 'OBJECT',
-      properties: {
-        text: { type: 'STRING' },
-        suggestedActionId: { type: 'STRING' },
-      },
-      required: ['text'],
-    };
-
-    const systemPrompt =
-      'You are Saans Air Quality Copilot. Answer user question safely. Output words only; do not invent numbers.';
     const prompt = `Context: ${JSON.stringify(input.payload)}\nUser Question: ${input.question}`;
 
-    const res = await callGemini({ prompt, systemPrompt, schema, apiKey: input.apiKey });
+    const res = await callGemini({
+      prompt,
+      systemPrompt: QA_SYSTEM_PROMPT,
+      schema: QA_RESPONSE_SCHEMA,
+      apiKey: input.apiKey,
+    });
     if (!res.ok) return err(res.error);
 
     try {

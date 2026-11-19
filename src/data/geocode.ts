@@ -18,9 +18,7 @@ const GeocodingResponseSchema = z.object({
 
 const GEOCODING_BASE_URL = 'https://geocoding-api.open-meteo.com/v1/search';
 
-/**
- * Searches locations matching a query string using the Open-Meteo Geocoding API.
- */
+/** Searches locations matching a query string using the Open-Meteo Geocoding API. */
 export async function searchCities(query: string): Promise<Result<readonly GeoLocation[], string>> {
   const trimmed = query.trim();
   if (trimmed.length < 2) {

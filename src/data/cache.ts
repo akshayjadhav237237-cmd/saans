@@ -3,9 +3,7 @@ import type { CacheEntry } from './types';
 
 export const CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes
 
-/**
- * Provides in-memory and session storage caching with deterministic expiration.
- */
+/** Provides in-memory and session storage caching with deterministic expiration. */
 export class SessionCache<T> {
   private readonly memory = new Map<string, CacheEntry<T>>();
   private readonly clock: Clock;
@@ -14,9 +12,7 @@ export class SessionCache<T> {
     this.clock = clock;
   }
 
-  /**
-   * Retrieves an unexpired item from cache if present.
-   */
+  /** Retrieves an unexpired item from cache if present. */
   get(key: string): T | null {
     const now = this.clock.now();
 
@@ -49,9 +45,7 @@ export class SessionCache<T> {
     return null;
   }
 
-  /**
-   * Stores an item in cache with standard TTL.
-   */
+  /** Stores an item in cache with standard TTL. */
   set(key: string, data: T, ttlMs = CACHE_TTL_MS): void {
     const entry: CacheEntry<T> = {
       data,
@@ -68,9 +62,7 @@ export class SessionCache<T> {
     }
   }
 
-  /**
-   * Clears all cached items from memory and session storage.
-   */
+  /** Clears all cached items from memory and session storage. */
   clear(): void {
     this.memory.clear();
     try {

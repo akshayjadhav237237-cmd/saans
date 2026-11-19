@@ -21,9 +21,7 @@ function isResponseSizeValid(headers: Headers): boolean {
   return parseInt(contentLength, 10) <= MAX_RESPONSE_BYTES;
 }
 
-/**
- * Executes a resilient HTTP fetch request returning a safe typed Result.
- */
+/** Executes a resilient HTTP fetch request returning a safe typed Result. */
 export async function fetchJson<T>(
   url: string,
   init?: RequestInit,

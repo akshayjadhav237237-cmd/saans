@@ -8,9 +8,7 @@ import type {
   ExplainPlanInput,
 } from './port';
 
-/**
- * Selects the appropriate AI provider based on available credentials.
- */
+/** Selects the appropriate AI provider based on available credentials. */
 export function selectProvider(apiKey?: string): AiProvider {
   if (apiKey && apiKey.trim().length > 0) {
     return GeminiProvider;
@@ -18,9 +16,7 @@ export function selectProvider(apiKey?: string): AiProvider {
   return LocalProvider;
 }
 
-/**
- * Explains an action plan with seamless fallback to deterministic local templates.
- */
+/** Explains an action plan with seamless fallback to deterministic local templates. */
 export async function explainWithFallback(input: ExplainPlanInput): Promise<AiExplanation> {
   if (input.apiKey && input.apiKey.trim().length > 0) {
     const geminiRes = await GeminiProvider.explainPlan(input);
@@ -38,9 +34,7 @@ export async function explainWithFallback(input: ExplainPlanInput): Promise<AiEx
       };
 }
 
-/**
- * Answers a user question with seamless fallback to local intent matching.
- */
+/** Answers a user question with seamless fallback to local intent matching. */
 export async function answerWithFallback(input: AnswerQuestionInput): Promise<AiAnswer> {
   if (input.apiKey && input.apiKey.trim().length > 0) {
     const geminiRes = await GeminiProvider.answerQuestion(input);

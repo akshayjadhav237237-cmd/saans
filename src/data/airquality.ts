@@ -21,9 +21,7 @@ const AirQualityResponseSchema = z.object({
 
 const AIR_QUALITY_BASE_URL = 'https://air-quality-api.open-meteo.com/v1/air-quality';
 
-/**
- * Extracts normalized hourly readings from API series.
- */
+/** Extracts normalized hourly readings from API series. */
 function extractHourlyReadings(
   pm25Series: readonly (number | null)[],
   aqiSeries: readonly (number | null)[],
@@ -40,9 +38,7 @@ function extractHourlyReadings(
   return readings;
 }
 
-/**
- * Creates a synthetic 24-hour flat air quality series for manual user override.
- */
+/** Creates a synthetic 24-hour flat air quality series for manual user override. */
 export function createManualAirQuality(manualPm25: number): AirQualityData {
   const pm25 = Math.max(0, Math.round(manualPm25));
   const approxAqi = Math.round(pm25 * 1.6);
@@ -60,9 +56,7 @@ export function createManualAirQuality(manualPm25: number): AirQualityData {
   };
 }
 
-/**
- * Fetches real-time ambient air quality and 24-hour forecast from Open-Meteo API.
- */
+/** Fetches real-time ambient air quality and 24-hour forecast from Open-Meteo API. */
 export async function fetchAirQuality(
   latitude: number,
   longitude: number,

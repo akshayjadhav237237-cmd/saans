@@ -111,9 +111,7 @@ const TOPIC_MATCHES: readonly TopicMatch[] = [
   },
 ];
 
-/**
- * Deterministic on-device AI provider generating template-based guidance and intent-matched answers.
- */
+/** Deterministic on-device AI provider generating template-based guidance and intent-matched answers. */
 export const LocalProvider: AiProvider = {
   id: 'local',
 
