@@ -1,18 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { AirQualityData } from '../src/data/types';
 import { buildDayPlan } from '../src/domain/plan';
 import type { Clock } from '../src/domain/ports';
 import type { HouseholdProfile } from '../src/domain/types';
 import { PlanPanel } from '../src/features/plan/PlanPanel';
-import {
-  buildActionGroupViewModels,
-  buildBestWindowViewModels,
-  buildComparisonViewModel,
-  buildMemberViewModels,
-  buildPlanViewModel,
-} from '../src/features/plan/plan.viewmodel';
+import { buildPlanViewModel } from '../src/features/plan/plan.viewmodel';
 import { createDefaultBaselineScenario } from '../src/features/plan/usePlan';
 import { useAppStore } from '../src/state/store';
 
@@ -153,23 +147,36 @@ describe('Plan Feature - Viewmodel & PlanPanel UI', () => {
     expect(screen.getByRole('button', { name: 'Show Chart' })).toBeDefined();
   });
 
-  it('directly verifies individual viewmodel builders', () => {
-    const plan = buildDayPlan(
-      {
-        hourly: mockAirData.hourly,
-        profile: mockProfile,
-        baselineScenario: createDefaultBaselineScenario(),
-      },
-      mockClock,
-    );
-    const comp = buildComparisonViewModel(plan.baselineExposure, plan.optimizedExposure, 'en');
-    const members = buildMemberViewModels(plan, mockProfile, 'en');
-    const groups = buildActionGroupViewModels(plan.rankedActions, 'en');
-    const windows = buildBestWindowViewModels(plan.bestWindows, 'en');
+  it('renders loading state when air calculation is in progress', () => {
+    useAppStore.setState({ isAirLoading: true });
+    render(<PlanPanel clock={mockClock} />);
+    expect(screen.getByText('Calculating personalized exposure budget...')).toBeDefined();
+  });
 
-    expect(comp.baseline.doseUg).toBeGreaterThan(0);
-    expect(members.length).toBe(2);
-    expect(groups.length).toBeGreaterThan(0);
-    expect(windows.length).toBeGreaterThan(0);
+  it('triggers navigation callback when buttons in empty state are clicked', async () => {
+    const onNav = vi.fn();
+    render(<PlanPanel clock={mockClock} onNavigateTab={onNav} />);
+    await userEvent.click(screen.getByRole('button', { name: /1\) Location/i }));
+    expect(onNav).toHaveBeenCalledWith('location');
+    await userEvent.click(screen.getByRole('button', { name: /2\) Household/i }));
+    expect(onNav).toHaveBeenCalledWith('household');
+  });
+
+  it('triggers export calendar download and copy text actions cleanly', async () => {
+    useAppStore.setState({ airData: mockAirData });
+    const createUrl = vi.fn().mockReturnValue('blob:mock');
+    const revokeUrl = vi.fn();
+    window.URL.createObjectURL = createUrl;
+    window.URL.revokeObjectURL = revokeUrl;
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    Object.assign(navigator, { clipboard: { writeText } });
+
+    render(<PlanPanel clock={mockClock} />);
+    await userEvent.click(screen.getByRole('button', { name: 'Download Calendar (.ics)' }));
+    expect(createUrl).toHaveBeenCalled();
+    expect(revokeUrl).toHaveBeenCalled();
+
+    await userEvent.click(screen.getByRole('button', { name: 'Copy Plan Text' }));
+    expect(writeText).toHaveBeenCalled();
   });
 });
