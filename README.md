@@ -2,8 +2,10 @@
 
 > Urban air quality co-pilot calculating personalized inhaled PM2.5 exposure budgets and verified mitigation actions for families experiencing winter smog.
 
-- **Live Application**: https://akshayjadhav237237-cmd.github.io/saans/
+- **Live Application**: https://saans-phi.vercel.app
+- **Security Headers**: Security headers (frame-ancestors, nosniff, HSTS) are sent by the Vercel deployment via vercel.json. The GitHub Pages build serves the same app without those headers. (`npm run test -- tests/csp.test.ts`, `curl -sI https://saans-phi.vercel.app`)
 - **Demo Video (90s)**: [DEMO_VIDEO_URL_PLACEHOLDER]
+- **Platform Config Note**: `vercel.json` is the only config file outside build/lint tooling (`git ls-files | grep vercel`), added strictly because Vercel needs it to serve HTTP response security headers that HTML `<meta>` elements cannot enforce (`npm run test -- tests/csp.test.ts`).
 
 ## 2. Chosen Vertical and Persona
 
@@ -68,14 +70,14 @@ Architectural decisions are tracked in `docs/adr/` (0001-stack, 0002-layering, 0
 
 ## 7. Evaluation Focus Table
 
-| Evaluation Area       | Architectural Strategy                                                         | Source Implementation                    | Test & Verification Command                    |
-| :-------------------- | :----------------------------------------------------------------------------- | :--------------------------------------- | :--------------------------------------------- |
-| **Code Quality**      | Max 200 lines/file, max 60 lines/fn, complexity <= 10, zero `any`              | `AGENTS.md`, `eslint.config.js`          | `npm run lint` && `npm run typecheck`          |
-| **Security**          | Data minimization payload, CSP meta injection, 280-char guard, memory-only key | `src/config/csp.ts`, `src/ai/payload.ts` | `npm run test -- tests/privacy.canary.test.ts` |
-| **Efficiency**        | Vite chunk splitting, gzipped bundle < 150 KB, pure calculation cache          | `vite.config.ts`, `src/data/cache.ts`    | `npm run build`                                |
-| **Testing**           | 97%+ branch/statement coverage, property tests, mocked HTTP adapters           | `tests/*.test.ts`, `vitest.config.ts`    | `npm run test:cov`                             |
-| **Accessibility**     | Dual-signal badges, WCAG 2.1 AA contrast, SVG chart with data table            | `src/shared/`, `src/index.css`           | `npm run test -- tests/contrast.test.ts`       |
-| **Problem Alignment** | 19 catalog actions, 8 Indian cities, personalized exposure budget              | `src/domain/actions.catalog.ts`          | `npm run test -- tests/actions.test.ts`        |
+| Evaluation Area       | Architectural Strategy                                                       | Source Implementation                                   | Test & Verification Command                                      |
+| :-------------------- | :--------------------------------------------------------------------------- | :------------------------------------------------------ | :--------------------------------------------------------------- |
+| **Code Quality**      | Max 200 lines/file, max 60 lines/fn, complexity <= 10, zero `any`            | `AGENTS.md`, `eslint.config.js`                         | `npm run lint` && `npm run typecheck`                            |
+| **Security**          | Data minimization payload, CSP headers/meta, 280-char guard, memory-only key | `src/config/csp.ts`, `vercel.json`, `src/ai/payload.ts` | `npm run test -- tests/privacy.canary.test.ts tests/csp.test.ts` |
+| **Efficiency**        | Vite chunk splitting, gzipped bundle < 150 KB, pure calculation cache        | `vite.config.ts`, `src/data/cache.ts`                   | `npm run build`                                                  |
+| **Testing**           | >= 85% branch and >= 90% statement/line/fn thresholds, property & HTTP mocks | `tests/*.test.ts`, `vitest.config.ts`                   | `npm run test:cov`                                               |
+| **Accessibility**     | Dual-signal badges, WCAG 2.1 AA contrast, SVG chart with data table          | `src/shared/`, `src/index.css`                          | `npm run test -- tests/contrast.test.ts`                         |
+| **Problem Alignment** | 19 catalog actions, 8 Indian cities, personalized exposure budget            | `src/domain/actions.catalog.ts`                         | `npm run test -- tests/actions.test.ts`                          |
 
 ## 8. Privacy and AI Disclosure
 
@@ -88,7 +90,7 @@ The cloud AI payload sent to Google Gemini is restricted to pre-approved categor
 5. `language`: Interface language code (`en` or `hi`).
 6. `userQuestion`: User question text (up to 280 characters, after validation guard).
 
-City names, GPS coordinates, household names, nicknames, member IDs and notes are not sent. Your typed question is sent when Gemini is on.
+City names, GPS coordinates, household names, nicknames, member IDs and notes are not sent. Your typed question is sent when Gemini is on (`npm run test -- tests/privacy.canary.test.ts`, `npm run e2e`).
 
 ## 9. Run, Test, and Build Commands
 
