@@ -172,11 +172,11 @@ describe('Plan Feature - Viewmodel & PlanPanel UI', () => {
     Object.assign(navigator, { clipboard: { writeText } });
 
     render(<PlanPanel clock={mockClock} />);
-    await userEvent.click(screen.getByRole('button', { name: 'Download Calendar (.ics)' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Add to Calendar (.ics)' }));
     expect(createUrl).toHaveBeenCalled();
     expect(revokeUrl).toHaveBeenCalled();
 
-    await userEvent.click(screen.getByRole('button', { name: 'Copy Plan Text' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Copy Summary Text' }));
     expect(writeText).toHaveBeenCalled();
   });
 });

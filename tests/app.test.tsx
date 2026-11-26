@@ -41,12 +41,12 @@ describe('Accessible Application Shell', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    const langBtn = screen.getByRole('button', { name: /toggle language/i });
+    const langBtn = screen.getByRole('button', { name: 'हिंदी में देखें' });
     expect(langBtn.textContent).toContain('हिंदी में देखें');
 
     await user.click(langBtn);
     expect(useAppStore.getState().language).toBe('hi');
-    expect(langBtn.textContent).toContain('View in English');
+    expect(screen.getByRole('button', { name: 'View in English' })).toBeInTheDocument();
     expect(document.documentElement.lang).toBe('hi');
 
     await user.click(langBtn);

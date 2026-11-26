@@ -72,7 +72,7 @@ test.describe('Console and CSP Hygiene', () => {
     // 6. Language switch toggle back and forth
     await page.getByRole('button', { name: A11Y_NAMES.buttons.switchLanguage }).click();
     await expect(page.locator('html')).toHaveAttribute('lang', 'hi');
-    await page.getByRole('button', { name: A11Y_NAMES.buttons.switchLanguage }).click();
+    await page.getByRole('button', { name: A11Y_NAMES.buttons.switchLanguageEnglish }).click();
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 
     // Assert strictly zero errors and zero CSP refusal messages
