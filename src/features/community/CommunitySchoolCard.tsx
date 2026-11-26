@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from '../../shared';
+import { Card, VisuallyHidden } from '../../shared';
 import type { SchoolStatusDisplay } from './community.viewmodel';
 
 export interface CommunitySchoolCardProps {
@@ -29,9 +29,9 @@ export function CommunitySchoolCard({
         </div>
         <span
           className={`inline-flex items-center justify-center px-3 py-1.5 rounded-md text-xs font-bold tracking-wide uppercase border ${schoolBadgeStyle}`}
-          aria-label={`School outdoor status: ${schoolStatus.badge}`}
         >
-          {schoolStatus.badge}
+          <VisuallyHidden>School outdoor status: </VisuallyHidden>
+          <span>{schoolStatus.badge}</span>
         </span>
       </div>
     </Card>

@@ -3,7 +3,7 @@ import { createCounterIdGen, createSystemClock, type Clock } from '../../domain/
 import type { DayPlan } from '../../domain/types';
 import { generateIcsCalendar, generateTextPlan } from '../../exports';
 import { translate } from '../../i18n';
-import { A11Y_NAMES, Button, Card, Notice, Section, Spinner } from '../../shared';
+import { Button, Card, Notice, Section, Spinner } from '../../shared';
 import { useAppStore } from '../../state/store';
 import { BestWindowsCard } from './BestWindowsCard';
 import { ExposureBudgetCard } from './ExposureBudgetCard';
@@ -60,28 +60,13 @@ function PlanExportBar({ plan, clock }: ExportBarProps): JSX.Element {
   return (
     <Card className="flex flex-wrap items-center justify-between gap-3 p-4 print:hidden">
       <div className="flex flex-wrap gap-2">
-        <Button
-          type="button"
-          variant="secondary"
-          onClick={handleDownloadIcs}
-          aria-label={A11Y_NAMES.buttons.downloadIcs}
-        >
+        <Button type="button" variant="secondary" onClick={handleDownloadIcs}>
           {translate(language, 'export.ics.button')}
         </Button>
-        <Button
-          type="button"
-          variant="secondary"
-          onClick={handleCopyText}
-          aria-label={A11Y_NAMES.buttons.copyPlan}
-        >
+        <Button type="button" variant="secondary" onClick={handleCopyText}>
           {translate(language, 'export.text.button')}
         </Button>
-        <Button
-          type="button"
-          variant="ghost"
-          onClick={() => window.print?.()}
-          aria-label={A11Y_NAMES.buttons.printAdvisory}
-        >
+        <Button type="button" variant="ghost" onClick={() => window.print?.()}>
           {translate(language, 'export.print.button')}
         </Button>
       </div>

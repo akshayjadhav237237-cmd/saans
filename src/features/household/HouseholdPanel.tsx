@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import type { IdGen } from '../../domain/ports';
 import { translate, type Language } from '../../i18n';
-import { A11Y_NAMES, Button, Card, Field, Notice, Section } from '../../shared';
+import { Button, Card, Field, Notice, Section } from '../../shared';
 import { clearPersistedState } from '../../state/persist';
 import { useAppStore } from '../../state/store';
 import { CommutePurifierCard, MembersSection } from './MemberItem';
@@ -25,12 +25,7 @@ export function HouseholdActionsBar({
 }: HouseholdActionsBarProps): JSX.Element {
   return (
     <div className="flex flex-wrap items-center justify-between gap-3">
-      <Button
-        type="button"
-        variant="ghost"
-        onClick={onClearData}
-        aria-label={A11Y_NAMES.buttons.clearData}
-      >
+      <Button type="button" variant="ghost" onClick={onClearData}>
         {translate(language, 'export.clear.button')}
       </Button>
       <div className="flex items-center gap-3">

@@ -14,7 +14,10 @@ export function AskDisclosure({ language }: AskDisclosureProps): JSX.Element {
     <details className="group border border-border rounded-lg p-3 bg-bg-surface text-sm">
       <summary className="cursor-pointer font-medium text-text-main flex items-center justify-between">
         <span>{translate(language, 'ask.disclosure.toggle')}</span>
-        <span className="text-xs text-text-muted group-open:rotate-180 transition-transform">
+        <span
+          aria-hidden="true"
+          className="text-xs text-text-muted group-open:rotate-180 transition-transform"
+        >
           ▼
         </span>
       </summary>

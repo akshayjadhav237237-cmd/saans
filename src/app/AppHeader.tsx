@@ -1,7 +1,7 @@
 import React from 'react';
 import { APP_CONFIG } from '../config/constants';
 import { translate } from '../i18n';
-import { A11Y_NAMES, Button } from '../shared';
+import { Button } from '../shared';
 import { useAppStore } from '../state/store';
 
 /** Accessible application header landmark displaying branding, subtitle, and bilingual switcher. */
@@ -38,10 +38,9 @@ export function AppHeader(): React.JSX.Element {
             type="button"
             variant="secondary"
             onClick={handleLanguageToggle}
-            aria-label={A11Y_NAMES.buttons.switchLanguage}
             className="text-xs font-semibold px-3 py-2 min-h-[44px] min-w-[44px]"
           >
-            🌐 {translate(language, 'app.lang.switch')}
+            <span aria-hidden="true">🌐</span> {translate(language, 'app.lang.switch')}
           </Button>
         </div>
       </div>

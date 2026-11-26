@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { translate } from '../../i18n';
-import { BandBadge, Button, Card, Section } from '../../shared';
+import { BandBadge, Button, Card, Section, VisuallyHidden } from '../../shared';
 import { A11Y_NAMES } from '../../shared/a11y-names';
 import { useAppStore } from '../../state/store';
 import { CommunityActionsCard } from './CommunityActionsCard';
@@ -43,9 +43,8 @@ export function CommunityPanel({
             <h3 className="text-lg sm:text-xl font-bold text-text-main mt-0.5">{headline}</h3>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-sm font-bold text-text-main" aria-label={`US AQI ${aqi}`}>
-              AQI {aqi}
-            </span>
+            <VisuallyHidden>US </VisuallyHidden>
+            <span className="text-sm font-bold text-text-main">AQI {aqi}</span>
             <BandBadge band={band} label={bandLabel} />
             <Button
               variant="secondary"
