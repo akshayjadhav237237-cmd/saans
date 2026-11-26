@@ -70,14 +70,14 @@ Architectural decisions are tracked in `docs/adr/` (0001-stack, 0002-layering, 0
 
 ## 7. Evaluation Focus Table
 
-| Evaluation Area       | Architectural Strategy                                                       | Source Implementation                                   | Test & Verification Command                                      |
-| :-------------------- | :--------------------------------------------------------------------------- | :------------------------------------------------------ | :--------------------------------------------------------------- |
-| **Code Quality**      | Max 200 lines/file, max 60 lines/fn, complexity <= 10, zero `any`            | `AGENTS.md`, `eslint.config.js`                         | `npm run lint` && `npm run typecheck`                            |
-| **Security**          | Data minimization payload, CSP headers/meta, 280-char guard, memory-only key | `src/config/csp.ts`, `vercel.json`, `src/ai/payload.ts` | `npm run test -- tests/privacy.canary.test.ts tests/csp.test.ts` |
-| **Efficiency**        | Vite chunk splitting, gzipped bundle < 150 KB, pure calculation cache        | `vite.config.ts`, `src/data/cache.ts`                   | `npm run build`                                                  |
-| **Testing**           | >= 85% branch and >= 90% statement/line/fn thresholds, property & HTTP mocks | `tests/*.test.ts`, `vitest.config.ts`                   | `npm run test:cov`                                               |
-| **Accessibility**     | Dual-signal badges, WCAG 2.1 AA contrast, SVG chart with data table          | `src/shared/`, `src/index.css`                          | `npm run test -- tests/contrast.test.ts`                         |
-| **Problem Alignment** | 19 catalog actions, 8 Indian cities, personalized exposure budget            | `src/domain/actions.catalog.ts`                         | `npm run test -- tests/actions.test.ts`                          |
+| Evaluation Area       | Architectural Strategy                                                       | Source Implementation                                   | Test & Verification Command                                                   |
+| :-------------------- | :--------------------------------------------------------------------------- | :------------------------------------------------------ | :---------------------------------------------------------------------------- |
+| **Code Quality**      | Max 200 lines/file, max 60 lines/fn, complexity <= 10, zero `any`            | `AGENTS.md`, `eslint.config.js`                         | `npm run lint` && `npm run typecheck`                                         |
+| **Security**          | Data minimization payload, CSP headers/meta, 280-char guard, memory-only key | `src/config/csp.ts`, `vercel.json`, `src/ai/payload.ts` | `npm run test -- tests/privacy.canary.test.ts tests/csp.test.ts`              |
+| **Efficiency**        | Vite chunk splitting, gzipped bundle < 150 KB, pure calculation cache        | `vite.config.ts`, `src/data/cache.ts`                   | `npm run build`                                                               |
+| **Testing**           | >= 85% branch and >= 90% statement/line/fn thresholds, property & HTTP mocks | `tests/*.test.ts`, `vitest.config.ts`                   | `npm run test:cov`                                                            |
+| **Accessibility**     | Dual-signal badges, WCAG 2.1 AA axe & contrast checks, SVG data table        | `src/shared/`, `src/index.css`, `e2e/a11y.spec.ts`      | `npm run test -- tests/contrast.test.ts` && `npm run e2e -- e2e/a11y.spec.ts` |
+| **Problem Alignment** | 19 catalog actions, 8 Indian cities, personalized exposure budget            | `src/domain/actions.catalog.ts`                         | `npm run test -- tests/actions.test.ts`                                       |
 
 ## 8. Privacy and AI Disclosure
 
