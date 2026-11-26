@@ -1,6 +1,27 @@
-import { describe, it, expect } from 'vitest';
-import { CSP_DIRECTIVES, buildCspString } from '../src/config/csp';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
+import { describe, expect, it } from 'vitest';
+import { buildCspString, CSP_DIRECTIVES } from '../src/config/csp';
 import { vitePluginCsp } from '../vite-plugin-csp';
+
+interface VercelHeaderItem {
+  readonly key: string;
+  readonly value: string;
+}
+
+interface VercelConfig {
+  readonly headers?: readonly {
+    readonly source: string;
+    readonly headers: readonly VercelHeaderItem[];
+  }[];
+}
+
+function getVercelHeaders(): Record<string, string> {
+  const raw = readFileSync(resolve(__dirname, '../vercel.json'), 'utf8');
+  const parsed = JSON.parse(raw) as VercelConfig;
+  const headerList = parsed.headers?.[0]?.headers ?? [];
+  return Object.fromEntries(headerList.map((h) => [h.key, h.value]));
+}
 
 describe('Content Security Policy configuration', () => {
   it('defines required restrictive security directives', () => {
@@ -32,5 +53,24 @@ describe('Content Security Policy configuration', () => {
         expect(metaIdx).toBeLessThan(titleIdx);
       }
     }
+  });
+
+  it('matches vercel.json CSP with buildCspString and contains frame-ancestors none', () => {
+    const headers = getVercelHeaders();
+    const vercelCsp = headers['Content-Security-Policy'] ?? '';
+    expect(vercelCsp).toContain("frame-ancestors 'none'");
+    const baseCsp = vercelCsp.replace("; frame-ancestors 'none'", '');
+    expect(baseCsp).toBe(buildCspString());
+  });
+
+  it('enforces expected HTTP security headers in vercel.json', () => {
+    const headers = getVercelHeaders();
+    expect(headers['X-Content-Type-Options']).toBe('nosniff');
+    expect(headers['X-Frame-Options']).toBe('DENY');
+    expect(headers['Referrer-Policy']).toBe('no-referrer');
+    expect(headers['Permissions-Policy']).toBeDefined();
+    expect(headers['Permissions-Policy']).toContain('camera=()');
+    expect(headers['Strict-Transport-Security']).toBeDefined();
+    expect(headers['Strict-Transport-Security']).toContain('max-age=');
   });
 });
