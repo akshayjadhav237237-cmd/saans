@@ -6,7 +6,7 @@ Accepted
 
 ## Context
 
-Saans allows urban families to personalize air quality guidance using household member roles and respiratory sensitivity toggles (`src/features/household/`, `tests/household.feature.test.tsx`), UI commute/purifier inputs, and deterministic daily exposure scenarios (`src/domain/actions.catalog.ts`, `tests/actions.test.ts`). When integrating cloud GenAI capabilities (Google Gemini) for contextual explanations, transmitting personal details, names, street locations, or GPS coordinates to external APIs presents severe privacy risks.
+Saans allows urban families to personalize air quality guidance using household member roles, respiratory sensitivity toggles (`src/features/household/`, `tests/household.feature.test.tsx`), persisted commute mode and air purifier ownership (`src/state/persist.ts`, `tests/persist.test.ts`), and deterministic daily exposure scenarios (`src/domain/plan.ts`, `src/domain/actions.catalog.ts`, `tests/plan.test.ts`). Commute mode and purifier ownership stay on device and are omitted from the 6-field Gemini allowlist payload (`tests/privacy.canary.test.ts`). When integrating cloud GenAI capabilities (Google Gemini) for contextual explanations, transmitting personal details, names, street locations, or GPS coordinates to external APIs presents severe privacy risks.
 
 Moreover, integrating third-party LLMs introduces risks of prompt injection attacks, unpredictable formatting, and hallucinations of medical metrics or exposure values. We required an architecture that guarantees data minimization, protects against prompt tampering, ensures numbers are grounded in engine calculations, and operates reliably even without external network access or API keys.
 
