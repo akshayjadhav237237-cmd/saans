@@ -10,6 +10,12 @@ z.config({ jitless: true });
 export const STORAGE_KEY = 'saans.v1';
 
 const MemberRoleSchema = z.enum(['child', 'adult', 'elder']);
+const CommuteModeSchema = z.enum([
+  'commute_two_wheeler',
+  'commute_walk',
+  'commute_public',
+  'commute_car',
+]);
 
 const HouseholdMemberSchema = z.object({
   id: z.string().min(1),
@@ -22,6 +28,8 @@ const HouseholdProfileSchema = z.object({
   name: z.string().min(1),
   city: z.string().min(1),
   members: z.array(HouseholdMemberSchema).readonly(),
+  commuteMode: CommuteModeSchema.default('commute_two_wheeler'),
+  hasAirPurifier: z.boolean().default(false),
 });
 
 const LanguageSchema = z.enum(['en', 'hi']);
@@ -74,11 +82,23 @@ function resetCorruptStorage(s: Storage | null): PersistedState {
   return getDefaultPersistedState();
 }
 
+/** Normalizes optional household lifestyle fields to validated v2 persistence defaults. */
+function normalizeProfile(profile: HouseholdProfile): z.infer<typeof HouseholdProfileSchema> {
+  return {
+    id: profile.id,
+    name: profile.name,
+    city: profile.city,
+    members: [...profile.members],
+    commuteMode: profile.commuteMode ?? 'commute_two_wheeler',
+    hasAirPurifier: Boolean(profile.hasAirPurifier),
+  };
+}
+
 /** Returns default persisted configuration for clean initial sessions and corrupt-data resets. */
 export function getDefaultPersistedState(): PersistedState {
   return {
     version: CURRENT_SCHEMA_VERSION,
-    profile: DEFAULT_MIGRATION_PROFILE,
+    profile: normalizeProfile(DEFAULT_MIGRATION_PROFILE),
     language: 'en',
     selectedCity: null,
   };
@@ -104,7 +124,7 @@ export function savePersistedState(state: PersistInput, storage?: Storage): Resu
 
     const sanitized: PersistedState = {
       version: CURRENT_SCHEMA_VERSION,
-      profile: state.profile,
+      profile: normalizeProfile(state.profile),
       language: state.language,
       selectedCity: state.selectedCity,
     };

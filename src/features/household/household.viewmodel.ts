@@ -4,10 +4,15 @@ import {
   getMemberSensitivityWeight,
   validateHouseholdProfile,
 } from '../../domain/household';
-import type { HouseholdMember, HouseholdProfile, MemberRole } from '../../domain/types';
+import type {
+  CommuteMode,
+  HouseholdMember,
+  HouseholdProfile,
+  MemberRole,
+} from '../../domain/types';
 import { translate, type Language, type TranslationKey } from '../../i18n';
 
-export type CommuteMode = 'commute_two_wheeler' | 'commute_walk' | 'commute_public' | 'commute_car';
+export type { CommuteMode };
 
 export interface CommuteOption {
   readonly value: CommuteMode;
@@ -130,4 +135,16 @@ export function validateHouseholdInputs(
     return err(result.error);
   }
   return ok(true);
+}
+
+/** Builds a normalized household profile candidate including commute and purifier flags. */
+export function buildCandidateProfile(input: {
+  readonly id: string;
+  readonly name: string;
+  readonly city: string;
+  readonly members: readonly HouseholdMember[];
+  readonly commuteMode: CommuteMode;
+  readonly hasAirPurifier: boolean;
+}): HouseholdProfile {
+  return { ...input, name: input.name.trim() };
 }

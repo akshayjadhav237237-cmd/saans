@@ -1,7 +1,7 @@
 import { err, ok, type Result } from '../domain/result';
 import type { HouseholdProfile } from '../domain/types';
 
-export const CURRENT_SCHEMA_VERSION = 1;
+export const CURRENT_SCHEMA_VERSION = 2;
 
 export type MigrationStep = (data: Record<string, unknown>) => Record<string, unknown>;
 
@@ -13,6 +13,8 @@ export const DEFAULT_MIGRATION_PROFILE: HouseholdProfile = {
     { id: 'm_adult_1', role: 'adult', hasRespiratoryCondition: false },
     { id: 'm_child_1', role: 'child', hasRespiratoryCondition: false },
   ],
+  commuteMode: 'commute_two_wheeler',
+  hasAirPurifier: false,
 };
 
 /** Extracts normalized integer version from record or defaults to zero. */
@@ -50,8 +52,31 @@ function migrateStep0To1(data: Record<string, unknown>): Record<string, unknown>
   };
 }
 
+/** Migrates v1 stored state to v2 by adding default lifestyle routine fields. */
+function migrateStep1To2(data: Record<string, unknown>): Record<string, unknown> {
+  const rawProfile = parseRecordInput(data.profile);
+  const profile = rawProfile
+    ? {
+        ...rawProfile,
+        commuteMode:
+          typeof rawProfile.commuteMode === 'string'
+            ? rawProfile.commuteMode
+            : DEFAULT_MIGRATION_PROFILE.commuteMode,
+        hasAirPurifier:
+          typeof rawProfile.hasAirPurifier === 'boolean' ? rawProfile.hasAirPurifier : false,
+      }
+    : DEFAULT_MIGRATION_PROFILE;
+
+  return {
+    ...data,
+    version: 2,
+    profile,
+  };
+}
+
 export const MIGRATION_TABLE: Readonly<Record<number, MigrationStep>> = {
   0: migrateStep0To1,
+  1: migrateStep1To2,
 };
 
 /** Applies sequential schema transformation steps across version increments. */

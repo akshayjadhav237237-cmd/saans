@@ -2,7 +2,43 @@ import type { Clock } from './ports';
 import { listActions } from './actions';
 import { computeExposure } from './exposure';
 import { bestWindows } from './schedule';
-import type { DayPlan, PlanInput, RankedAction, Scenario } from './types';
+import type {
+  CommuteMode,
+  DayPlan,
+  HouseholdProfile,
+  MicroEnvironment,
+  PlanInput,
+  RankedAction,
+  Scenario,
+} from './types';
+
+function resolveBaseHourEnvironment(hour: number, commute: CommuteMode): MicroEnvironment {
+  if (hour === 6 || hour === 7 || hour === 17) return 'outdoor';
+  if (hour === 8 || hour === 9 || hour === 18) return commute;
+  if (hour >= 10 && hour <= 16) return 'indoor_work_school';
+  return 'indoor_home';
+}
+
+/** Maps a household profile to a deterministic 24-hour baseline exposure scenario. */
+export function buildBaselineScenario(profile: HouseholdProfile): Scenario {
+  const commute: CommuteMode = profile.commuteMode ?? 'commute_two_wheeler';
+  const hasPurifier = Boolean(profile.hasAirPurifier);
+  return {
+    hours: Array.from({ length: 24 }, (_, hour) => {
+      const environment = resolveBaseHourEnvironment(hour, commute);
+      return {
+        hour,
+        environment,
+        mask: 'none',
+        purifier: environment === 'indoor_home' && hasPurifier ? 'on_room' : 'off',
+        windowsSealed: false,
+        cookingVentilated: false,
+        dampMopping: false,
+        biomassBurning: true,
+      };
+    }),
+  };
+}
 
 /** Evaluates and ranks applicable mitigation actions by dosage reduction efficiency per effort unit. */
 export function rankActions(input: PlanInput): RankedAction[] {

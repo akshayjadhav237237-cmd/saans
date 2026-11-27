@@ -2,15 +2,20 @@ import { useEffect, useRef, useState, type Dispatch, type SetStateAction } from 
 import { err, ok, type Result } from '../../domain/result';
 import { validateHouseholdProfile } from '../../domain/household';
 import { createCounterIdGen, type IdGen } from '../../domain/ports';
-import type { HouseholdMember, HouseholdProfile, MemberRole } from '../../domain/types';
+import type {
+  CommuteMode,
+  HouseholdMember,
+  HouseholdProfile,
+  MemberRole,
+} from '../../domain/types';
 import { translate, type Language } from '../../i18n';
 import { useAppStore } from '../../state/store';
 import {
   assessHouseholdSensitivity,
+  buildCandidateProfile,
   canAddMember,
   createDefaultMember,
   mapValidationError,
-  type CommuteMode,
 } from './household.viewmodel';
 
 export interface UseHouseholdOptions {
@@ -77,16 +82,6 @@ export function toggleRespiratoryInList(
   );
 }
 
-/** Constructs a candidate household profile for validation and persistence. */
-export function buildCandidateProfile(
-  id: string,
-  name: string,
-  city: string,
-  members: readonly HouseholdMember[],
-): HouseholdProfile {
-  return { id, name: name.trim(), city, members };
-}
-
 /** Validates and commits an updated household profile to the global store. */
 export function performProfileSave(
   profile: HouseholdProfile,
@@ -117,16 +112,44 @@ export function createMemberActions(
   };
 }
 
+function useDraftProfile(storeProfile: HouseholdProfile) {
+  const [name, setName] = useState<string>(storeProfile.name);
+  const [members, setMembers] = useState<readonly HouseholdMember[]>(storeProfile.members);
+  const [commuteMode, setCommuteMode] = useState<CommuteMode>(
+    storeProfile.commuteMode ?? 'commute_two_wheeler',
+  );
+  const [hasAirPurifier, setHasAirPurifier] = useState<boolean>(
+    Boolean(storeProfile.hasAirPurifier),
+  );
+
+  const sync = () => {
+    setName(storeProfile.name);
+    setMembers(storeProfile.members);
+    setCommuteMode(storeProfile.commuteMode ?? 'commute_two_wheeler');
+    setHasAirPurifier(Boolean(storeProfile.hasAirPurifier));
+  };
+
+  useEffect(sync, [storeProfile]);
+
+  return {
+    name,
+    setName,
+    members,
+    setMembers,
+    commuteMode,
+    setCommuteMode,
+    hasAirPurifier,
+    setHasAirPurifier,
+    sync,
+  };
+}
+
 /** React view-model hook managing household profile editing, members, commute mode, and purifier state. */
 export function useHousehold(options?: UseHouseholdOptions): UseHouseholdReturn {
   const storeProfile = useAppStore((state) => state.profile);
   const setStoreProfile = useAppStore((state) => state.setProfile);
   const language = useAppStore((state) => state.language);
-
-  const [name, setName] = useState<string>(storeProfile.name);
-  const [members, setMembers] = useState<readonly HouseholdMember[]>(storeProfile.members);
-  const [commuteMode, setCommuteMode] = useState<CommuteMode>('commute_two_wheeler');
-  const [hasAirPurifier, setHasAirPurifier] = useState<boolean>(false);
+  const draft = useDraftProfile(storeProfile);
   const [notice, setNotice] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -134,38 +157,37 @@ export function useHousehold(options?: UseHouseholdOptions): UseHouseholdReturn 
   if (!genRef.current) genRef.current = options?.idGen ?? createCounterIdGen('m');
   const generator = options?.idGen ?? genRef.current;
 
-  useEffect(() => {
-    setName(storeProfile.name);
-    setMembers(storeProfile.members);
-  }, [storeProfile]);
-
   const save = (): Result<HouseholdProfile, string> => {
-    const candidate = buildCandidateProfile(storeProfile.id, name, storeProfile.city, members);
+    const candidate = buildCandidateProfile({
+      id: storeProfile.id,
+      name: draft.name,
+      city: storeProfile.city,
+      members: draft.members,
+      commuteMode: draft.commuteMode,
+      hasAirPurifier: draft.hasAirPurifier,
+    });
     const res = performProfileSave(candidate, language, setStoreProfile);
     setError(res.ok ? null : res.error);
     setNotice(res.ok ? translate(language, 'household.saved') : null);
     return res;
   };
 
-  const memberActions = createMemberActions(members, generator, setMembers);
-
   return {
-    name,
-    setName,
-    members,
-    commuteMode,
-    setCommuteMode,
-    hasAirPurifier,
-    setHasAirPurifier,
+    name: draft.name,
+    setName: draft.setName,
+    members: draft.members,
+    commuteMode: draft.commuteMode,
+    setCommuteMode: draft.setCommuteMode,
+    hasAirPurifier: draft.hasAirPurifier,
+    setHasAirPurifier: draft.setHasAirPurifier,
     notice,
     error,
-    canAdd: canAddMember(members.length),
-    hasVulnerable: assessHouseholdSensitivity(members).hasVulnerable,
-    ...memberActions,
+    canAdd: canAddMember(draft.members.length),
+    hasVulnerable: assessHouseholdSensitivity(draft.members).hasVulnerable,
+    ...createMemberActions(draft.members, generator, draft.setMembers),
     save,
     reset: () => {
-      setName(storeProfile.name);
-      setMembers(storeProfile.members);
+      draft.sync();
       setError(null);
       setNotice(null);
     },

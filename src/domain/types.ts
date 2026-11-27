@@ -20,11 +20,15 @@ export interface HouseholdMember {
   readonly hasRespiratoryCondition: boolean;
 }
 
+export type CommuteMode = 'commute_two_wheeler' | 'commute_walk' | 'commute_public' | 'commute_car';
+
 export interface HouseholdProfile {
   readonly id: string;
   readonly name: string;
   readonly city: string;
   readonly members: readonly HouseholdMember[];
+  readonly commuteMode?: CommuteMode | undefined;
+  readonly hasAirPurifier?: boolean | undefined;
 }
 
 export type MicroEnvironment =

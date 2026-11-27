@@ -15,6 +15,8 @@ const defaultProfile: HouseholdProfile = {
     { id: 'm_adult_1', role: 'adult', hasRespiratoryCondition: false },
     { id: 'm_child_1', role: 'child', hasRespiratoryCondition: false },
   ],
+  commuteMode: 'commute_two_wheeler',
+  hasAirPurifier: false,
 };
 
 /** Global reactive Zustand store managing application slices and in-memory session states. */

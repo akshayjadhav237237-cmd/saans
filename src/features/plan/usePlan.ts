@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { AirQualityData } from '../../data/types';
-import { buildDayPlan } from '../../domain/plan';
+import { buildBaselineScenario, buildDayPlan } from '../../domain/plan';
 import { createSystemClock, type Clock } from '../../domain/ports';
-import type { DayPlan, HouseholdProfile, MicroEnvironment, Scenario } from '../../domain/types';
+import type { DayPlan, HouseholdProfile, Scenario } from '../../domain/types';
 import { useAppStore } from '../../state/store';
 import type { PlanViewModel } from './plan.types';
 import { buildPlanViewModel } from './plan.viewmodel';
@@ -19,27 +19,14 @@ export interface UsePlanReturn {
 
 /** Generates a default 24-hour diurnal routine baseline scenario for exposure calculation. */
 export function createDefaultBaselineScenario(): Scenario {
-  return {
-    hours: Array.from({ length: 24 }, (_, hour) => {
-      let environment: MicroEnvironment = 'indoor_home';
-      if (hour === 6 || hour === 7) environment = 'outdoor';
-      else if (hour === 8 || hour === 9) environment = 'commute_two_wheeler';
-      else if (hour >= 10 && hour <= 16) environment = 'indoor_work_school';
-      else if (hour === 17) environment = 'outdoor';
-      else if (hour === 18) environment = 'commute_two_wheeler';
-
-      return {
-        hour,
-        environment,
-        mask: 'none',
-        purifier: 'off',
-        windowsSealed: false,
-        cookingVentilated: false,
-        dampMopping: false,
-        biomassBurning: true,
-      };
-    }),
-  };
+  return buildBaselineScenario({
+    id: 'h_default',
+    name: 'Our Family',
+    city: 'Delhi',
+    members: [],
+    commuteMode: 'commute_two_wheeler',
+    hasAirPurifier: false,
+  });
 }
 
 function computeDayPlan(
@@ -50,7 +37,7 @@ function computeDayPlan(
 ): DayPlan | null {
   if (!hasData || !airData) return null;
   return buildDayPlan(
-    { hourly: airData.hourly, profile, baselineScenario: createDefaultBaselineScenario() },
+    { hourly: airData.hourly, profile, baselineScenario: buildBaselineScenario(profile) },
     clock,
   );
 }
@@ -79,7 +66,7 @@ export function usePlan(clock: Clock = DEFAULT_CLOCK): UsePlanReturn {
     setPlan(computedPlan);
   }, [computedPlan, setPlan]);
 
-  const activePlan = plan ?? computedPlan;
+  const activePlan = computedPlan ?? plan;
   const viewModel = useMemo(
     () => (activePlan ? buildPlanViewModel(activePlan, profile, language) : null),
     [activePlan, profile, language],

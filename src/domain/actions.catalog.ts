@@ -6,6 +6,9 @@ function modifyHours(scenario: Scenario, updater: (h: ScenarioHour) => ScenarioH
 
 const hasChild = (p: HouseholdProfile): boolean => p.members.some((m) => m.role === 'child');
 const always = (): boolean => true;
+const noPurifierOwned = (p: HouseholdProfile): boolean => !p.hasAirPurifier;
+const usesTwoWheeler = (p: HouseholdProfile): boolean =>
+  (p.commuteMode ?? 'commute_two_wheeler') === 'commute_two_wheeler';
 
 interface QualActionConfig {
   readonly id: string;
@@ -106,7 +109,7 @@ export const ACTIONS_CATALOG: readonly ActionDef[] = [
     costBand: 2,
     titleKey: 'action.purifier_bedroom.title',
     descriptionKey: 'action.purifier_bedroom.desc',
-    appliesTo: always,
+    appliesTo: noPurifierOwned,
     apply: (s) =>
       modifyHours(s, (h) => (h.environment === 'indoor_home' ? { ...h, purifier: 'on_room' } : h)),
   },
@@ -160,7 +163,7 @@ export const ACTIONS_CATALOG: readonly ActionDef[] = [
     costBand: 1,
     titleKey: 'action.metro_bus_commute.title',
     descriptionKey: 'action.metro_bus_commute.desc',
-    appliesTo: always,
+    appliesTo: usesTwoWheeler,
     apply: (s) =>
       modifyHours(s, (h) =>
         h.environment === 'commute_two_wheeler' ? { ...h, environment: 'commute_public' } : h,
