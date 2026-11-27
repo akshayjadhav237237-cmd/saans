@@ -67,6 +67,10 @@ export function App(): React.JSX.Element {
 
   const handleSelectTab = useCallback((tabId: NavTabId) => {
     setActiveTab(tabId);
+  }, []);
+
+  const handleNavigatePanel = useCallback((tabId: NavTabId) => {
+    setActiveTab(tabId);
     const tabItem = NAV_TABS.find((t) => t.id === tabId);
     if (tabItem && typeof document !== 'undefined') {
       setTimeout(() => {
@@ -103,7 +107,7 @@ export function App(): React.JSX.Element {
               </div>
             }
           >
-            {renderActivePanel(activeTab, handleSelectTab)}
+            {renderActivePanel(activeTab, handleNavigatePanel)}
           </Suspense>
         </div>
       </main>
