@@ -4,7 +4,7 @@
 
 - **Live Application**: https://saans-phi.vercel.app
 - **Security Headers**: Security headers (frame-ancestors, nosniff, HSTS) are sent by the Vercel deployment via vercel.json. The GitHub Pages build serves the same app without those headers. (`npm run test -- tests/csp.test.ts`, `curl -sI https://saans-phi.vercel.app`)
-- **Demo Video (90s)**: [DEMO_VIDEO_URL_PLACEHOLDER]
+- **Demo Video (90s)**: https://youtu.be/jGfR11lPgOc?si=GgMkuK7yhmWwLCza
 - **Platform Config Note**: `vercel.json` is the only config file outside build/lint tooling (`git ls-files | grep vercel`), added strictly because Vercel needs it to serve HTTP response security headers that HTML `<meta>` elements cannot enforce (`npm run test -- tests/csp.test.ts`).
 
 ## 2. Chosen Vertical and Persona
