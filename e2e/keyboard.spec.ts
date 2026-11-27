@@ -75,6 +75,27 @@ export async function inspectPlanAndAskViaKeyboard(page: Page): Promise<void> {
   await expect(page.locator('#ask-panel')).toContainText(/air/i);
 }
 
+async function expectActiveTabAndPanel(
+  page: Page,
+  tabId: string,
+  panelSelector: string,
+): Promise<void> {
+  const allTabIds = ['location', 'household', 'plan', 'ask', 'community'] as const;
+  const activeTab = page.locator(`#tab-${tabId}`);
+  await expect(activeTab).toBeFocused();
+  await expect(activeTab).toHaveAttribute('aria-selected', 'true');
+  await expect(activeTab).toHaveAttribute('tabindex', '0');
+
+  for (const id of allTabIds) {
+    if (id !== tabId) {
+      const other = page.locator(`#tab-${id}`);
+      await expect(other).toHaveAttribute('aria-selected', 'false');
+      await expect(other).toHaveAttribute('tabindex', '-1');
+    }
+  }
+  await expect(page.locator(panelSelector)).toBeVisible();
+}
+
 test.describe('Keyboard Navigation - Core Flow', () => {
   test('skip link is keyboard focusable and navigates to main content', async ({ page }) => {
     await page.goto('/');
@@ -86,6 +107,34 @@ test.describe('Keyboard Navigation - Core Flow', () => {
 
     await page.keyboard.press('Enter');
     await expect(page.locator('#main-content')).toBeFocused();
+  });
+
+  test('activates all five tabs via keyboard only (arrows, wrap, Home, End, Enter, Space)', async ({
+    page,
+  }) => {
+    await page.goto('/');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
+    await expectActiveTabAndPanel(page, 'location', '#location-panel');
+
+    const steps = [
+      ['ArrowRight', 'household', '#household-profile'],
+      ['ArrowRight', 'plan', '#exposure-plan'],
+      ['ArrowRight', 'ask', '#ask-panel'],
+      ['ArrowRight', 'community', '#community-advisory'],
+      ['ArrowRight', 'location', '#location-panel'],
+      ['ArrowLeft', 'community', '#community-advisory'],
+      ['Home', 'location', '#location-panel'],
+      ['End', 'community', '#community-advisory'],
+      ['Enter', 'community', '#community-advisory'],
+      [' ', 'community', '#community-advisory'],
+    ] as const;
+
+    for (const [key, tabId, panelSelector] of steps) {
+      await page.keyboard.press(key);
+      await expectActiveTabAndPanel(page, tabId, panelSelector);
+    }
   });
 
   test('complete workflow can be operated solely through keyboard navigation', async ({ page }) => {

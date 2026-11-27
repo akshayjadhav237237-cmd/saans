@@ -99,4 +99,34 @@ test.describe('Accessibility Audits - Localization and Print Modes', () => {
     await page.emulateMedia({ media: 'print' });
     await assertZeroA11yViolations(page, testInfo);
   });
+
+  test('roving tablist passes axe tab and ARIA rules after keyboard activation', async ({
+    page,
+  }) => {
+    await page.goto('/');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('ArrowRight');
+    await expect(page.locator('#household-profile')).toBeVisible();
+
+    const results = await new AxeBuilder({ page })
+      .include('[role="tablist"]')
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
+      .options({ rules: { 'color-contrast': { enabled: true } } })
+      .analyze();
+
+    expect(results.violations).toEqual([]);
+    const passedIds = new Set(results.passes.map((r) => r.id));
+    for (const ruleId of [
+      'aria-allowed-attr',
+      'aria-required-attr',
+      'aria-required-children',
+      'aria-required-parent',
+      'aria-roles',
+      'tabindex',
+    ]) {
+      expect(passedIds.has(ruleId)).toBe(true);
+    }
+  });
 });
