@@ -16,6 +16,8 @@ describe('Privacy Canary and Data Minimization', () => {
     id: 'h-secret-canary',
     name: CANARY_NICKNAME,
     city: CANARY_CITY,
+    commuteMode: 'commute_two_wheeler',
+    hasAirPurifier: true,
     members: [
       { id: 'canary-member-alpha', role: 'adult', hasRespiratoryCondition: false },
       { id: 'canary-member-beta', role: 'child', hasRespiratoryCondition: true },

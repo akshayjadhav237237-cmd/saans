@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { buildDayPlan, rankActions } from '../src/domain/plan';
+import { buildBaselineScenario, buildDayPlan, rankActions } from '../src/domain/plan';
+import { listActions } from '../src/domain/actions';
 import {
   formatCategoryLabel,
   formatRiskBandLabel,
@@ -115,5 +116,75 @@ describe('Plan Engine (rankActions & buildDayPlan)', () => {
 
     const groups = buildActionGroupViewModels(plan.rankedActions, 'hi');
     expect(groups.length).toBe(4);
+  });
+
+  it('builds deterministic baseline scenario driven by commuteMode and hasAirPurifier without double-counting', () => {
+    const twoWheelerProfile = {
+      ...profile,
+      commuteMode: 'commute_two_wheeler' as const,
+      hasAirPurifier: false,
+    };
+    const metroProfile = {
+      ...profile,
+      commuteMode: 'commute_public' as const,
+      hasAirPurifier: false,
+    };
+    const purifierProfile = {
+      ...profile,
+      commuteMode: 'commute_two_wheeler' as const,
+      hasAirPurifier: true,
+    };
+
+    expect(buildBaselineScenario(metroProfile)).toEqual(buildBaselineScenario(metroProfile));
+    expect(
+      buildBaselineScenario(twoWheelerProfile).hours.find((h) => h.hour === 8)?.environment,
+    ).toBe('commute_two_wheeler');
+    expect(buildBaselineScenario(metroProfile).hours.find((h) => h.hour === 8)?.environment).toBe(
+      'commute_public',
+    );
+    expect(buildBaselineScenario(purifierProfile).hours.find((h) => h.hour === 0)?.purifier).toBe(
+      'on_room',
+    );
+
+    const twoWheelerPlan = buildDayPlan(
+      {
+        hourly: highSmogHourly,
+        profile: twoWheelerProfile,
+        baselineScenario: buildBaselineScenario(twoWheelerProfile),
+      },
+      mockClock,
+    );
+    const metroPlan = buildDayPlan(
+      {
+        hourly: highSmogHourly,
+        profile: metroProfile,
+        baselineScenario: buildBaselineScenario(metroProfile),
+      },
+      mockClock,
+    );
+    const purifierPlan = buildDayPlan(
+      {
+        hourly: highSmogHourly,
+        profile: purifierProfile,
+        baselineScenario: buildBaselineScenario(purifierProfile),
+      },
+      mockClock,
+    );
+
+    expect(metroPlan.baselineExposure.dailyDoseUg).toBeLessThan(
+      twoWheelerPlan.baselineExposure.dailyDoseUg,
+    );
+    expect(purifierPlan.baselineExposure.dailyDoseUg).toBeLessThan(
+      twoWheelerPlan.baselineExposure.dailyDoseUg,
+    );
+    expect(listActions(purifierProfile).some((a) => a.id === 'purifier_bedroom')).toBe(false);
+    expect(listActions(metroProfile).some((a) => a.id === 'metro_bus_commute')).toBe(false);
+
+    const directRanked = rankActions({
+      hourly: highSmogHourly,
+      profile: twoWheelerProfile,
+      baselineScenario: buildBaselineScenario(purifierProfile),
+    });
+    expect(directRanked.find((r) => r.action.id === 'purifier_bedroom')?.deltaDoseUg).toBe(0);
   });
 });

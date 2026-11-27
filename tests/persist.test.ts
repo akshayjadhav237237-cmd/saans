@@ -49,13 +49,13 @@ describe('Versioned Persistence Engine (P5-A)', () => {
     expect(res.ok).toBe(true);
     if (res.ok) {
       expect(res.value).toEqual(getDefaultPersistedState());
-      expect(res.value.version).toBe(1);
+      expect(res.value.version).toBe(2);
     }
   });
 
-  it('saves and reloads state roundtrip correctly under saans.v1', () => {
+  it('saves and reloads state roundtrip cleanly with lifestyle fields', () => {
     const saveRes = savePersistedState({
-      profile: sampleProfile,
+      profile: { ...sampleProfile, commuteMode: 'commute_public', hasAirPurifier: true },
       language: 'hi',
       selectedCity: sampleCity,
     });
@@ -64,9 +64,11 @@ describe('Versioned Persistence Engine (P5-A)', () => {
     const loadRes = loadPersistedState();
     expect(loadRes.ok).toBe(true);
     if (loadRes.ok) {
-      expect(loadRes.value.version).toBe(1);
+      expect(loadRes.value.version).toBe(2);
       expect(loadRes.value.language).toBe('hi');
       expect(loadRes.value.profile.city).toBe('Pune');
+      expect(loadRes.value.profile.commuteMode).toBe('commute_public');
+      expect(loadRes.value.profile.hasAirPurifier).toBe(true);
       expect(loadRes.value.selectedCity?.name).toBe('Pune');
     }
   });
@@ -107,18 +109,36 @@ describe('Versioned Persistence Engine (P5-A)', () => {
     assertLocalStorageResetsToDefault(JSON.stringify(broken));
   });
 
-  it('migrates legacy unversioned state (v0) to current v1 schema', () => {
-    const legacyState = { profile: sampleProfile, language: 'hi' };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(legacyState));
-
-    const loadRes = loadPersistedState();
-    expect(loadRes.ok).toBe(true);
-    if (loadRes.ok) {
-      expect(loadRes.value.version).toBe(1);
-      expect(loadRes.value.language).toBe('hi');
-      expect(loadRes.value.profile.id).toBe(sampleProfile.id);
-      expect(loadRes.value.selectedCity).toBeNull();
+  it('migrates legacy v0 and v1 state to current v2 schema with safe lifestyle defaults', () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ profile: sampleProfile, language: 'hi' }));
+    const resV0 = loadPersistedState();
+    expect(resV0.ok).toBe(true);
+    if (resV0.ok) {
+      expect(resV0.value.version).toBe(2);
+      expect(resV0.value.profile.commuteMode).toBe('commute_two_wheeler');
+      expect(resV0.value.profile.hasAirPurifier).toBe(false);
     }
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ version: 1, profile: sampleProfile, language: 'en', selectedCity: null }),
+    );
+    const resV1 = loadPersistedState();
+    expect(resV1.ok).toBe(true);
+    if (resV1.ok) {
+      expect(resV1.value.version).toBe(2);
+      expect(resV1.value.profile.id).toBe(sampleProfile.id);
+      expect(resV1.value.profile.commuteMode).toBe('commute_two_wheeler');
+      expect(resV1.value.profile.hasAirPurifier).toBe(false);
+    }
+
+    const corruptV2 = {
+      version: 2,
+      profile: { ...sampleProfile, commuteMode: 'rocket' },
+      language: 'en',
+      selectedCity: null,
+    };
+    assertLocalStorageResetsToDefault(JSON.stringify(corruptV2));
   });
 
   it('resets safely when encountering unsupported future schema versions', () => {
@@ -142,7 +162,7 @@ describe('Versioned Persistence Engine (P5-A)', () => {
     const v0Res = migrateState({});
     expect(v0Res.ok).toBe(true);
     if (v0Res.ok) {
-      expect(v0Res.value.version).toBe(1);
+      expect(v0Res.value.version).toBe(2);
       expect(v0Res.value.language).toBe('en');
     }
     expect(migrateState({ version: 0 }, 2, {}).ok).toBe(false);

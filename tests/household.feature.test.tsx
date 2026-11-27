@@ -134,12 +134,15 @@ describe('Household Feature', () => {
 
     const commuteSelect = screen.getByLabelText(/primary commute mode/i);
     fireEvent.change(commuteSelect, { target: { value: 'commute_public' } });
+    fireEvent.click(screen.getByRole('switch', { name: /own an indoor air purifier/i }));
 
     const saveBtn = screen.getByRole('button', { name: /save household profile/i });
     fireEvent.click(saveBtn);
 
     expect(screen.getByText(/profile saved successfully/i)).toBeInTheDocument();
     expect(useAppStore.getState().profile.members).toHaveLength(1);
+    expect(useAppStore.getState().profile.commuteMode).toBe('commute_public');
+    expect(useAppStore.getState().profile.hasAirPurifier).toBe(true);
   });
 
   it('shows error notice when saving with empty household name', () => {
